@@ -5,7 +5,7 @@ const dotenv = require("dotenv")
 const cors = require("cors")
 const colors = require("colors")
 const { notFound, errorHandler } = require("./middleware/errorMiddleware.js")
-const connectDB = require("./config/db.js")
+const { connectDB } = require("./config/db.js")
 
 const userRoutes = require("./routes/userRoutes.js")
 
