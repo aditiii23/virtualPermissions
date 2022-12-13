@@ -6,37 +6,37 @@ const User = require("../model/user.model")
 //@route POST /users/registerUser
 
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password, confirmpwd, phone } = req.body
+  try {
+    const { name, email, password, confirmpwd, phone } = req.body
 
-  const userExists = await User.findOne({ email })
+    const userExists = await User.findOne({ email })
 
-  if (userExists) {
-    res.status(400)
-    throw new Error("User already exists")
-  }
-  if (password != confirmpwd) {
-    res.status(400)
-    throw new Error("Passwords do not match")
-  }
+    if (userExists) {
+      res.status(400)
+      throw new Error("User already exists")
+    }
+    if (password != confirmpwd) {
+      res.status(400)
+      throw new Error("Passwords do not match")
+    }
 
-  const user = await User.create({
-    name,
-    email,
-    password,
-    phone,
-  })
-
-  if (user) {
-    res.status(201).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      phone: user.phone,
-      token: generateToken(user._id),
+    const user = await User.create({
+      name,
+      email,
+      password,
+      phone,
     })
-  } else {
-    res.status(400)
-    throw new Error("Invalid user data")
+
+    if (user) {
+      res.status(201).json({
+        success: true,
+        user: user,
+        token: generateToken(user._id),
+        message: "User registered successfully",
+      })
+    }
+  } catch (err) {
+    console.log(err)
   }
 })
 
@@ -44,22 +44,39 @@ const registerUser = asyncHandler(async (req, res) => {
 //@route POST /users/login
 
 const loginUser = asyncHandler(async (req, res) => {
-  const { email, password } = req.body
+  try {
+    const { email, password } = req.body
 
-  const user = await User.findOne({ email })
+    const user = await User.findOne({ email })
 
-  if (user && (await user.matchPassword(password))) {
-    res.json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      isAdmin: user.isAdmin,
-      token: generateToken(user._id),
-    })
-  } else {
-    res.status(401)
-    throw new Error("Invalid email or password")
+    if (user && (await user.matchPassword(password))) {
+      res.json({
+        success: true,
+        user: user,
+        token: generateToken(user._id),
+        message: "User login successfully",
+      })
+    }
+  } catch (err) {
+    console.log(err)
   }
 })
 
-module.exports = { registerUser, loginUser }
+//@desc Acknowledge user
+//@route GET /users/view
+
+const viewUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id)
+
+  if (user) {
+    res.json({
+      _id: user._id,
+      name: user.name,
+    })
+  } else {
+    res.status(404)
+    throw new Error("User not found")
+  }
+})
+
+module.exports = { registerUser, loginUser, viewUser }
