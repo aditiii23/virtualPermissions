@@ -36,4 +36,5 @@ const passSchema = mongoose.Schema(
   }
 )
 
-module.exports = mongoose.model("Pass", passSchema)
+const Pass = mongoose.model("Pass", passSchema)
+module.exports = Pass

@@ -58,14 +58,13 @@ const Signup = () => {
     e.preventDefault()
     setFormErrors(validateForm(user))
     const res = await axios.post(
-      "http://localhost:5000/users/registerUser/",
+      "http://localhost:7000/users/registerUser/",
       user
     )
-    if(res.data.success) {
+    if (res.data.success) {
       localStorage.setItem("user", JSON.stringify(res.data.user))
       navigate("/profile")
-    }
-    else{
+    } else {
       alert("Something went wrong")
     }
   }

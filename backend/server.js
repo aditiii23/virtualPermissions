@@ -8,6 +8,7 @@ const { notFound, errorHandler } = require("./middleware/errorMiddleware.js")
 const { connectDB } = require("./config/db.js")
 
 const userRoutes = require("./routes/userRoutes.js")
+const passRoutes = require("./routes/passRoutes.js")
 
 dotenv.config()
 
@@ -23,6 +24,8 @@ if (process.env.NODE_ENV === "development") {
 app.use(express.json())
 
 app.use("/users", userRoutes)
+app.use("/passes", passRoutes)
+
 
 if (process.env.NODE_ENV === "development") {
   app.get("/", (req, res) => {
@@ -33,7 +36,7 @@ if (process.env.NODE_ENV === "development") {
 app.use(notFound)
 app.use(errorHandler)
 
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 7000
 
 app.listen(
   PORT,
