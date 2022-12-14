@@ -18,9 +18,9 @@ const ViewPasses = () => {
 
   return (
     <>
-      {/* <Grid container spacing={3}> */}
+      <Grid container spacing={3}>
         {data?.map((item) => (
-          // <Grid item xs={4}>
+          <Grid item xs={4}>
             <Pass
               key={item?.id}
               generateId={item?.generateId}
@@ -30,9 +30,9 @@ const ViewPasses = () => {
               duration={item?.duration}
               start={item?.start}
             />
-          // </Grid>
+           </Grid>
         ))}
-      {/* </Grid> */}
+      </Grid>
     </>
   )
 }
