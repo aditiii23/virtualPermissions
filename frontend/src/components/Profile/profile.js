@@ -4,28 +4,30 @@ import GeneratePass from "../GeneratePass/generatePass"
 import ViewPasses from "../ViewPasses/viewPasses"
 
 const Profile = () => {
-  const [click, setClick] = useState(false)
+  const [click1, setClick1] = useState(false)
+    const [click2, setClick2] = useState(false)
+
   return (
     <div>
-      {click == false ? (
+      {click1 == false ? (
         <button
           className={basestyle.button_common}
-          onClick={() => setClick(true)}
+          onClick={() => setClick1(true)}
         >
           Generate Pass
         </button>
       ) : null}
-      {click ? <GeneratePass /> : null}
+      {click1 ? <GeneratePass /> : null}
 
-      {click == false ? (
+      {click2 == false ? (
         <button
           className={basestyle.button_common}
-          onClick={() => setClick(true)}
+          onClick={() => setClick2(true)}
         >
           View Passes
         </button>
       ) : null}
-      {click ? <ViewPasses /> : null}
+      {click2 ? <ViewPasses /> : null}
     </div>
   )
 }
