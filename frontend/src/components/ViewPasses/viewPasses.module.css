@@ -1,0 +1,19 @@
+.viewPasses{
+    width: 70%;
+    background: #fff;
+    padding: 1rem;
+    flex-wrap: center;
+    flex-direction: row;
+}
+
+@media only screen and (max-width: 400px) {
+    .viewPasses {
+        width: 70%
+    }
+}
+
+@media only screen and (max-width: 900px) {
+    .viewPasses {
+        width: 50%
+    }
+}
