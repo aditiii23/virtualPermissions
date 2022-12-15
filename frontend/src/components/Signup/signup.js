@@ -58,7 +58,7 @@ const Signup = () => {
     e.preventDefault()
     setFormErrors(validateForm(user))
     const res = await axios.post(
-      "http://localhost:7000/users/registerUser/",
+      "http://localhost:5000/users/registerUser/",
       user
     )
     if (res.data.success) {

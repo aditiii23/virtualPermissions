@@ -35,7 +35,7 @@ const Login = () => {
   const loginHandler = async (e) => {
     e.preventDefault()
     setFormErrors(validateForm(user))
-    const res = await axios.post("http://localhost:7000/users/login", user)
+    const res = await axios.post("http://localhost:5000/users/login", user)
     if (res.data.success) {
       localStorage.setItem("user", JSON.stringify(res.data.user))
       localStorage.setItem("token", res.data.token)

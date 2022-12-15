@@ -50,7 +50,7 @@ const GeneratePass = () => {
     setFormErrors(validateForm(newPass))
     // console.log(localStorage.getItem("token"))
     const res = await axios.post(
-      "http://localhost:7000/passes/generatePass/",
+      "http://localhost:5000/passes/generatePass/",
       newPass,
       {
         headers: { authorization: "Bearer " + localStorage.getItem("token") },
