@@ -1,4 +1,4 @@
-const path = require("path")
+// const path = require("path")
 const express = require("express")
 const morgan = require("morgan")
 const dotenv = require("dotenv")
@@ -26,7 +26,6 @@ app.use(express.json())
 app.use("/users", userRoutes)
 app.use("/passes", passRoutes)
 
-
 if (process.env.NODE_ENV === "development") {
   app.get("/", (req, res) => {
     res.send("API is running...")
@@ -36,7 +35,7 @@ if (process.env.NODE_ENV === "development") {
 app.use(notFound)
 app.use(errorHandler)
 
-const PORT = process.env.PORT || 7000
+const PORT = process.env.PORT || 5000
 
 app.listen(
   PORT,
