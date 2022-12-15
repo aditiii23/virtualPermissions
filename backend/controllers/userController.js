@@ -62,21 +62,5 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 })
 
-//@desc Acknowledge user
-//@route GET /users/view
 
-const viewUser = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.user._id)
-
-  if (user) {
-    res.json({
-      _id: user._id,
-      name: user.name,
-    })
-  } else {
-    res.status(404)
-    throw new Error("User not found")
-  }
-})
-
-module.exports = { registerUser, loginUser, viewUser }
+module.exports = { registerUser, loginUser }
