@@ -5,8 +5,8 @@ import ViewPasses from "../ViewPasses/viewPasses"
 
 const Profile = () => {
   const [click1, setClick1] = useState(false)
-    const [click2, setClick2] = useState(false)
-
+  const [click2, setClick2] = useState(false)
+  // if (click1 == true) {
   return (
     <div>
       {click1 == false ? (
@@ -18,7 +18,6 @@ const Profile = () => {
         </button>
       ) : null}
       {click1 ? <GeneratePass /> : null}
-
       {click2 == false ? (
         <button
           className={basestyle.button_common}
@@ -30,5 +29,8 @@ const Profile = () => {
       {click2 ? <ViewPasses /> : null}
     </div>
   )
+  // } else if (click2 == true && click1==false) {
+  // return <div></div>
+  // }
 }
 export default Profile
