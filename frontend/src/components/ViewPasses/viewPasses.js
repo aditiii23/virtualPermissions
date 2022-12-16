@@ -8,7 +8,7 @@ const ViewPasses = () => {
   const [data, setData] = useState([])
   const fetchPasses = async () => {
     const res = await axios.get(
-      "https://virtual-permissions-backend.vercel.app/passes/viewPasses/",
+      "https://backend-dun-nine.vercel.app/passes/viewPasses/",
       {
         headers: { authorization: "Bearer " + localStorage.getItem("token") },
       }

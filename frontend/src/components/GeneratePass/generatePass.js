@@ -50,7 +50,7 @@ const GeneratePass = () => {
     setFormErrors(validateForm(newPass))
     // console.log(localStorage.getItem("token"))
     const res = await axios.post(
-      "https://virtual-permissions-backend.vercel.app/passes/generatePass/",
+      "https://backend-dun-nine.vercel.app/passes/generatePass/",
       newPass,
       {
         headers: { authorization: "Bearer " + localStorage.getItem("token") },

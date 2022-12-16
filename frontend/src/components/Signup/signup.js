@@ -58,7 +58,7 @@ const Signup = () => {
     e.preventDefault()
     setFormErrors(validateForm(user))
     const res = await axios.post(
-      "https://virtual-permissions-backend.vercel.app/users/registerUser/",
+      "https://backend-dun-nine.vercel.app/users/registerUser/",
       user
     )
     if (res.data.success) {
