@@ -9,11 +9,11 @@ const Pass = require("../model/pass.model")
 const generatePass = asyncHandler(async (req, res) => {
   try {
     await connectDB()
-    const { name, email, phone, duration, start, role } = req.body
+    const { name, email, phone, duration, start } = req.body
 
-    if (role == "admin") {
-      const user = await User.findOne({ _id: req.user._id })
-      if (user) {
+    const user = await User.findOne({ _id: req.user._id })
+    if (user) {
+      if (user.role == "admin") {
         // console.log(user);
         const newPass = await Pass.create({
           name,
@@ -32,15 +32,15 @@ const generatePass = asyncHandler(async (req, res) => {
             message: "Pass generated successfully",
           })
         }
+      } else {
+        throw new Error("You are not authorised to create Pass!")
       }
     } else {
-      res.status(400).json({
-        success: false,
-        message: "Can't create Pass",
-      })
+      throw new Error("Signup to create Pass!")
     }
   } catch (err) {
     console.log(err)
+    res.status(400).json(err?.message)
   }
 })
 
@@ -62,14 +62,47 @@ const viewPasses = asyncHandler(async (req, res) => {
         message: "Passes fetched successfully",
       })
     } else if (passes.length < 1) {
-      res.status(201).json({
-        success: true,
-        message: "No passes found",
-      })
+      throw new Error("No passes found")
     }
   } catch (err) {
     console.log(err)
+    res.status(400).json(err?.message)
   }
 })
 
-module.exports = { generatePass, viewPasses }
+//@desc Verify pass by gaurd
+//@route PUT /users/verifyPass
+const verifyPass = asyncHandler(async (req, res) => {
+  try {
+    await connectDB()
+    const user = await User.findById(req.user._id)
+    console.log(req.params._id)
+
+    if (user.role == "gaurd") {
+      const passVerified = await Pass.findOneAndUpdate(
+        { _id: req.params._id },
+        {
+          checkInStatus: true,
+          timestamps: Date.now(),
+        }
+      )
+      console.log(passVerified)
+      if (passVerified) {
+        res.status(201).json({
+          success: true,
+          passVerified: passVerified,
+          message: "Pass verified successfully",
+        })
+      } else {
+        throw new Error("Something went wrong")
+      }
+    } else {
+      throw new Error("You are not authorised to verify!")
+    }
+  } catch (err) {
+    console.error(err)
+    res.status(400).json(err?.message)
+  }
+})
+
+module.exports = { generatePass, viewPasses, verifyPass }
