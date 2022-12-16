@@ -12,11 +12,9 @@ const registerUser = asyncHandler(async (req, res) => {
     const userExists = await User.findOne({ email })
 
     if (userExists) {
-      res.status(400)
-      throw new Error("User already exists")
+      throw new Error("User already exists, try login")
     }
     if (password != confirmpwd) {
-      res.status(400)
       throw new Error("Passwords do not match")
     }
 
@@ -38,6 +36,7 @@ const registerUser = asyncHandler(async (req, res) => {
     }
   } catch (err) {
     console.log(err)
+    res.status(400).json(err?.message)
   }
 })
 
@@ -51,10 +50,7 @@ const loginUser = asyncHandler(async (req, res) => {
     const user = await User.findOne({ email })
 
     if (!user) {
-      res.status(400).json({
-        success: false,
-        message: "No user exists! Please Login",
-      })
+      throw new Error("No user exists! Please Login")
     } else if (user && (await user.matchPassword(password))) {
       res.json({
         success: true,
@@ -65,6 +61,7 @@ const loginUser = asyncHandler(async (req, res) => {
     }
   } catch (err) {
     console.log(err)
+    res.status(400).json(err?.message)
   }
 })
 
