@@ -7,7 +7,7 @@ const User = require("../model/user.model")
 
 const registerUser = asyncHandler(async (req, res) => {
   try {
-    const { name, email, password, confirmpwd, phone } = req.body
+    const { name, email, password, confirmpwd, phone, role } = req.body
 
     const userExists = await User.findOne({ email })
 
@@ -25,6 +25,7 @@ const registerUser = asyncHandler(async (req, res) => {
       email,
       password,
       phone,
+      role,
     })
 
     if (user) {
@@ -49,7 +50,12 @@ const loginUser = asyncHandler(async (req, res) => {
 
     const user = await User.findOne({ email })
 
-    if (user && (await user.matchPassword(password))) {
+    if (!user) {
+      res.status(400).json({
+        success: false,
+        message: "No user exists! Please Login",
+      })
+    } else if (user && (await user.matchPassword(password))) {
       res.json({
         success: true,
         user: user,
@@ -61,6 +67,5 @@ const loginUser = asyncHandler(async (req, res) => {
     console.log(err)
   }
 })
-
 
 module.exports = { registerUser, loginUser }
