@@ -83,7 +83,7 @@ const verifyPass = asyncHandler(async (req, res) => {
         { _id: req.params._id },
         {
           checkInStatus: true,
-          timestamps: Date.now(),
+          timestamps: new Date(),
         }
       )
       console.log(passVerified)
