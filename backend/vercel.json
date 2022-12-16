@@ -1,15 +1,10 @@
 {
-    "version": 2,
-    "builds": [
-        {
-            "source:": "./server.js",
-            "use": "@vercel/node"
-        }
-    ],
-    "routes": [
-        {
-            "source": "/(.*)",
-            "dest": "/"
-        }
-    ]
+   "version": 2,
+   "name": "virtualpermissions-backend",
+   "builds": [
+      { "src": "server.js", "use": "@vercel/node" }
+   ],
+   "routes": [
+      { "src": "/(.*)", "dest": "/server.js" }
+   ]
 }
