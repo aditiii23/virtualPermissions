@@ -22,6 +22,9 @@ if (process.env.NODE_ENV === "development") {
 }
 
 app.use(express.json())
+app.get("/", (_req, res) => {
+  res.send("Hello World!")
+})
 
 app.use("/users", userRoutes)
 app.use("/passes", passRoutes)
