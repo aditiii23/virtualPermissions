@@ -1,6 +1,6 @@
 {
    "version": 2,
-   "name": "virtual-permissions-ylti",
+   "name": "virtual-permissions-backend",
    "builds": [
       { "src": "server.js", "use": "@vercel/node" }
    ],
