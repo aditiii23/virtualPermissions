@@ -6,14 +6,23 @@ import Pass from "./pass"
 
 const ViewPasses = () => {
   const [data, setData] = useState([])
+  const [error, setError] = useState("")
+
   const fetchPasses = async () => {
-    const res = await axios.get(
-      "https://backend-dun-nine.vercel.app/passes/viewPasses/",
-      {
-        headers: { authorization: "Bearer " + localStorage.getItem("token") },
+    try {
+      setError("")
+      const res = await axios.get(
+        "https://backend-dun-nine.vercel.app/passes/viewPasses/",
+        {
+          headers: { authorization: "Bearer " + localStorage.getItem("token") },
+        }
+      )
+      setData(res.data.passes)
+    } catch (err) {
+      if (err.response) {
+        setError(err.response.data)
       }
-    )
-    setData(res.data.passes)
+    }
   }
 
   useEffect(() => {
@@ -38,6 +47,7 @@ const ViewPasses = () => {
             </Grid>
           ))}
         </Grid>
+        {error?.length > 0 && <div>{error}</div>}
       </div>
     </>
   )

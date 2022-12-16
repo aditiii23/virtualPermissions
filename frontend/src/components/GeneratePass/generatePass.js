@@ -14,6 +14,7 @@ const GeneratePass = () => {
     duration: "",
     start: "",
   })
+  const [error, setError] = useState("")
 
   const changeHandler = (e) => {
     const { name, value } = e.target
@@ -48,19 +49,25 @@ const GeneratePass = () => {
   const generatePassHandler = async (e) => {
     e.preventDefault()
     setFormErrors(validateForm(newPass))
-    // console.log(localStorage.getItem("token"))
-    const res = await axios.post(
-      "https://backend-dun-nine.vercel.app/passes/generatePass/",
-      newPass,
-      {
-        headers: { authorization: "Bearer " + localStorage.getItem("token") },
+    try {
+      setError("")
+      const res = await axios.post(
+        "https://backend-dun-nine.vercel.app/passes/generatePass/",
+        newPass,
+        {
+          headers: { authorization: "Bearer " + localStorage.getItem("token") },
+        }
+      )
+      if (res.data.success) {
+        localStorage.setItem("newPass", JSON.stringify(res.data.newPass))
+        navigate("/viewPasses")
+      } else {
+        throw new Error("Something went wrong")
       }
-    )
-    if (res.data.success) {
-      localStorage.setItem("newPass", JSON.stringify(res.data.newPass))
-      navigate("/viewPasses")
-    } else {
-      alert("Something went wrong")
+    } catch (err) {
+      if (err.response) {
+        setError(err.response.data)
+      }
     }
   }
 
@@ -114,6 +121,7 @@ const GeneratePass = () => {
             value={newPass.start}
           />
           <p className={basestyle.error}>{formErrors.start}</p>
+          {error?.length > 0 && <div>{error}</div>}
           <button
             className={basestyle.button_common}
             onClick={generatePassHandler}

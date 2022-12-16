@@ -10,6 +10,7 @@ const Login = () => {
     email: "",
     password: "",
   })
+  const [error, setError] = useState("")
 
   const changeHandler = (e) => {
     const { name, value } = e.target
@@ -35,16 +36,23 @@ const Login = () => {
   const loginHandler = async (e) => {
     e.preventDefault()
     setFormErrors(validateForm(user))
-    const res = await axios.post(
-      "https://backend-dun-nine.vercel.app/users/login",
-      user
-    )
-    if (res.data.success) {
-      localStorage.setItem("user", JSON.stringify(res.data.user))
-      localStorage.setItem("token", res.data.token)
-      navigate("/profile")
-    } else {
-      alert("Something went wrong")
+    try {
+      setError("")
+      const res = await axios.post(
+        "https://backend-dun-nine.vercel.app/users/login",
+        user
+      )
+      if (res.data.user && res.data.token) {
+        localStorage.setItem("user", JSON.stringify(res.data.user))
+        localStorage.setItem("token", res.data.token)
+        navigate("/profile")
+      } else {
+        throw new Error("Invalid login")
+      }
+    } catch (err) {
+      if (err.response) {
+        setError(err.response.data)
+      }
     }
   }
 
@@ -74,6 +82,7 @@ const Login = () => {
           Login
         </button>
       </form>
+      {error?.length > 0 && <div>{error}</div>}
       <NavLink to="/register">Not yet registered? Register Now</NavLink>
     </div>
   )

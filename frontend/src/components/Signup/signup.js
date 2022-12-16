@@ -16,6 +16,7 @@ const Signup = () => {
     password: "",
     confirmpwd: "",
   })
+  const [error, setError] = useState("")
 
   const changeHandler = (e) => {
     const { name, value } = e.target
@@ -57,15 +58,22 @@ const Signup = () => {
   const signupHandler = async (e) => {
     e.preventDefault()
     setFormErrors(validateForm(user))
-    const res = await axios.post(
-      "https://backend-dun-nine.vercel.app/users/registerUser/",
-      user
-    )
-    if (res.data.success) {
-      localStorage.setItem("user", JSON.stringify(res.data.user))
-      navigate("/profile")
-    } else {
-      alert("Something went wrong")
+    try {
+      setError("")
+      const res = await axios.post(
+        "https://backend-dun-nine.vercel.app/users/registerUser/",
+        user
+      )
+      if (res.data.success) {
+        localStorage.setItem("user", JSON.stringify(res.data.user))
+        navigate("/profile")
+      } else {
+        throw new Error("Something went wrong")
+      }
+    } catch (err) {
+      if (err.response) {
+        setError(err.response.data)
+      }
     }
   }
 
@@ -119,6 +127,7 @@ const Signup = () => {
             value={user.confirmpwd}
           />
           <p className={basestyle.error}>{formErrors.confirmpwd}</p>
+          {error?.length > 0 && <div>{error}</div>}
           <button className={basestyle.button_common} onClick={signupHandler}>
             Register
           </button>
