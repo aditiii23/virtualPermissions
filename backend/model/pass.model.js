@@ -30,10 +30,11 @@ const passSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    timestamps: {
+      type: String,
+      default: ""
+    }
   },
-  {
-    timestamps: true,
-  }
 )
 
 const Pass = mongoose.model("Pass", passSchema)
