@@ -7,9 +7,12 @@ import Pass from "./pass"
 const ViewPasses = () => {
   const [data, setData] = useState([])
   const fetchPasses = async () => {
-    const res = await axios.get("http://localhost:5000/passes/viewPasses/", {
-      headers: { authorization: "Bearer " + localStorage.getItem("token") },
-    })
+    const res = await axios.get(
+      "https://virtual-permissions-backend.vercel.app/passes/viewPasses/",
+      {
+        headers: { authorization: "Bearer " + localStorage.getItem("token") },
+      }
+    )
     setData(res.data.passes)
   }
 
