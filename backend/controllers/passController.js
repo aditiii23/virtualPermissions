@@ -9,28 +9,35 @@ const Pass = require("../model/pass.model")
 const generatePass = asyncHandler(async (req, res) => {
   try {
     await connectDB()
-    const { name, email, phone, duration, start } = req.body
+    const { name, email, phone, duration, start, role } = req.body
 
-    const user = await User.findOne({ _id: req.user._id })
-    if (user) {
-      // console.log(user);
-      const newPass = await Pass.create({
-        name,
-        phone,
-        email,
-        duration,
-        start,
-        checkInStatus: true,
-        generateId: user.id,
-        userName: req.user.name,
-      })
-      if (newPass) {
-        res.status(201).json({
-          success: true,
-          newPass: newPass,
-          message: "Pass generated successfully",
+    if (role == "admin") {
+      const user = await User.findOne({ _id: req.user._id })
+      if (user) {
+        // console.log(user);
+        const newPass = await Pass.create({
+          name,
+          phone,
+          email,
+          duration,
+          start,
+          checkInStatus: true,
+          generateId: user.id,
+          userName: req.user.name,
         })
+        if (newPass) {
+          res.status(201).json({
+            success: true,
+            newPass: newPass,
+            message: "Pass generated successfully",
+          })
+        }
       }
+    } else {
+      res.status(400).json({
+        success: false,
+        message: "Can't create Pass",
+      })
     }
   } catch (err) {
     console.log(err)
