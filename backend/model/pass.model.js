@@ -30,11 +30,14 @@ const passSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    timestamps: {
+    timeAtCheckIn: {
       type: String,
-      default: ""
-    }
+      default: "",
+    },
   },
+  {
+    timestamps: true,
+  }
 )
 
 const Pass = mongoose.model("Pass", passSchema)
