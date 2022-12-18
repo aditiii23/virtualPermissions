@@ -1,6 +1,6 @@
 const express = require("express")
 const router = express.Router()
-const { protect } = require("../middleware/authMiddleware")
+const { protect, authorize } = require("../middleware/authMiddleware")
 
 const {
   generatePass,
@@ -8,10 +8,10 @@ const {
   verifyPass,
 } = require("../controllers/passController")
 
-router.post("/generatePass", protect, generatePass)
+router.post("/generatePass", protect, authorize("admin"), generatePass)
 
-router.get("/viewPasses", protect, viewPasses)
+router.get("/viewPasses", protect, authorize("admin"), viewPasses)
 
-router.put("/verifyPass/:_id", protect, verifyPass)
+router.put("/verifyPass/:_id", protect, authorize("gaurd"), verifyPass)
 
 module.exports = router
