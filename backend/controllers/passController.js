@@ -13,27 +13,23 @@ const generatePass = asyncHandler(async (req, res) => {
 
     const user = await User.findOne({ _id: req.user._id })
     if (user) {
-      if (user.role == "admin") {
-        // console.log(user);
-        const newPass = await Pass.create({
-          name,
-          phone,
-          email,
-          duration,
-          start,
-          checkInStatus: true,
-          generateId: user.id,
-          userName: req.user.name,
+      // console.log(user);
+      const newPass = await Pass.create({
+        name,
+        phone,
+        email,
+        duration,
+        start,
+        checkInStatus: false,
+        generateId: user.id,
+        userName: req.user.name,
+      })
+      if (newPass) {
+        res.status(201).json({
+          success: true,
+          newPass: newPass,
+          message: "Pass generated successfully",
         })
-        if (newPass) {
-          res.status(201).json({
-            success: true,
-            newPass: newPass,
-            message: "Pass generated successfully",
-          })
-        }
-      } else {
-        throw new Error("You are not authorised to create Pass!")
       }
     } else {
       throw new Error("Signup to create Pass!")
@@ -78,26 +74,22 @@ const verifyPass = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id)
     console.log(req.params._id)
 
-    if (user.role == "gaurd") {
-      const passVerified = await Pass.findOneAndUpdate(
-        { _id: req.params._id },
-        {
-          checkInStatus: true,
-          timeAtCheckIn: new Date(),
-        }
-      )
-      console.log(passVerified)
-      if (passVerified) {
-        res.status(201).json({
-          success: true,
-          passVerified: passVerified,
-          message: "Pass verified successfully",
-        })
-      } else {
-        throw new Error("Something went wrong")
+    const passVerified = await Pass.findOneAndUpdate(
+      { _id: req.params._id },
+      {
+        checkInStatus: true,
+        timeAtCheckIn: new Date(),
       }
+    )
+    console.log(passVerified)
+    if (passVerified) {
+      res.status(201).json({
+        success: true,
+        passVerified: passVerified,
+        message: "Pass verified successfully",
+      })
     } else {
-      throw new Error("You are not authorised to verify!")
+      throw new Error("Something went wrong")
     }
   } catch (err) {
     console.error(err)
