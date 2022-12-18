@@ -7,7 +7,7 @@ const User = require("../model/user.model")
 
 const registerUser = asyncHandler(async (req, res) => {
   try {
-    const { name, email, password, confirmpwd, phone, role } = req.body
+    const { name, email, password, confirmpwd, phone } = req.body
 
     const userExists = await User.findOne({ email })
 
@@ -23,7 +23,6 @@ const registerUser = asyncHandler(async (req, res) => {
       email,
       password,
       phone,
-      role,
     })
 
     if (user) {
