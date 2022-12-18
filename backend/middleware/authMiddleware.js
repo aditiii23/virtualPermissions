@@ -1,6 +1,6 @@
-const jwt = require("jsonwebtoken")
 const asyncHandler = require("express-async-handler")
 const User = require("../model/user.model")
+const jwt = require("jsonwebtoken")
 
 const protect = asyncHandler(async (req, res, next) => {
   let token
@@ -29,4 +29,20 @@ const protect = asyncHandler(async (req, res, next) => {
   }
 })
 
-module.exports = { protect }
+const authorize = (role) => {
+  return asyncHandler(async (req, res, next) => {
+    const user = req.user
+    console.log(user)
+    try {
+      if (!user.roles.includes(role)) {
+        throw new Error("You are not authorized to access this route")
+      }
+      next()
+    } catch (error) {
+      res.status(401)
+      throw new Error("You are not authorized to access this")
+    }
+  })
+}
+
+module.exports = { protect, authorize }
