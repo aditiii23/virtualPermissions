@@ -12,6 +12,6 @@ router.post("/generatePass", protect, authorize("admin"), generatePass)
 
 router.get("/viewPasses", protect, authorize("admin"), viewPasses)
 
-router.put("/verifyPass/:_id", protect, authorize("gaurd"), verifyPass)
+router.put("/verifyPass/:_id", protect, authorize("guard"), verifyPass)
 
 module.exports = router

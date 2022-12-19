@@ -65,7 +65,7 @@ const viewPasses = asyncHandler(async (req, res, next) => {
   }
 })
 
-//@desc Verify pass by gaurd
+//@desc Verify pass by guard
 //@route PUT /users/verifyPass
 const verifyPass = asyncHandler(async (req, res, next) => {
   try {
