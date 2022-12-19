@@ -1,16 +1,19 @@
-const notFound = (req, res, next) => {
-  const error = new Error(`Not Found - ${req.originalUrl}`)
-  res.status(404)
-  next(error)
+class ErrorHandler extends Error {
+  constructor(statusCode, message) {
+    super()
+    this.statusCode = statusCode
+    this.message = message
+    // console.log(statusCode)
+    // console.log(message)
+  }
 }
 
-const errorHandler = (err, req, res, next) => {
-  const statusCode = res.statusCode === 200 ? 500 : res.statusCode
-  res.status(statusCode)
-  res.json({
-    message: err.message,
-    stack: process.env.NODE_ENV === "production" ? null : err.stack,
+const handleError = (err, res) => {
+  const { statusCode, message } = err
+  res.status(statusCode).json({
+    status: "error",
+    statusCode,
+    message,
   })
-}
-
-module.exports = { notFound, errorHandler }
+} 
+module.exports = {ErrorHandler, handleError }

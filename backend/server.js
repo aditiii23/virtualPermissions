@@ -4,7 +4,7 @@ const morgan = require("morgan")
 const dotenv = require("dotenv")
 const cors = require("cors")
 const colors = require("colors")
-const { notFound, errorHandler } = require("./middleware/errorMiddleware.js")
+const { ErrorHandler, handleError } = require("./middleware/errorMiddleware.js")
 const { connectDB } = require("./config/db.js")
 
 const userRoutes = require("./routes/userRoutes.js")
@@ -35,8 +35,14 @@ if (process.env.NODE_ENV === "development") {
   })
 }
 
-app.use(notFound)
-app.use(errorHandler)
+app.get("/error", (req, res) => {
+  throw new ErrorHandler(500, "Internal server error")
+})
+
+app.use((err, req, res, next) => {
+  handleError(err, res)
+})
+
 
 const PORT = process.env.PORT || 5000
 

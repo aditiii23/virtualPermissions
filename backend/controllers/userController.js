@@ -1,21 +1,22 @@
 const asyncHandler = require("express-async-handler")
 const generateToken = require("../utils/generateToken")
+const { ErrorHandler } = require("../middleware/errorMiddleware")
 const User = require("../model/user.model")
 
 //@desc Register a new user
 //@route POST /users/registerUser
 
-const registerUser = asyncHandler(async (req, res) => {
+const registerUser = asyncHandler(async (req, res, next) => {
   try {
     const { name, email, password, confirmpwd, phone } = req.body
 
     const userExists = await User.findOne({ email })
 
     if (userExists) {
-      throw new Error("User already exists, try login")
+      throw new ErrorHandler(403, "User already exists, try login")
     }
     if (password != confirmpwd) {
-      throw new Error("Passwords do not match")
+      throw new ErrorHandler(403, "Passwords do not match")
     }
 
     const user = await User.create({
@@ -34,22 +35,21 @@ const registerUser = asyncHandler(async (req, res) => {
       })
     }
   } catch (err) {
-    console.log(err)
-    res.status(400).json(err?.message)
+    next(err)
   }
 })
 
 //@desc Auth user & get token
 //@route POST /users/login
 
-const loginUser = asyncHandler(async (req, res) => {
+const loginUser = asyncHandler(async (req, res, next) => {
   try {
     const { email, password } = req.body
 
     const user = await User.findOne({ email })
 
     if (!user) {
-      throw new Error("No user exists! Please Login")
+      throw new ErrorHandler(404, "No user exists! Please Register")
     } else if (user && (await user.matchPassword(password))) {
       res.json({
         success: true,
@@ -59,8 +59,7 @@ const loginUser = asyncHandler(async (req, res) => {
       })
     }
   } catch (err) {
-    console.log(err)
-    res.status(400).json(err?.message)
+    next(err)
   }
 })
 
