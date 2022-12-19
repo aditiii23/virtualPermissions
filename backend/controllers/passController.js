@@ -22,7 +22,7 @@ const generatePass = asyncHandler(async (req, res, next) => {
         duration,
         start,
         checkInStatus: false,
-        generateId: user.id,
+        generatedUserId: user.id,
         userName: req.user.name,
       })
       if (newPass) {
@@ -48,7 +48,7 @@ const viewPasses = asyncHandler(async (req, res, next) => {
     const user = await User.findById(req.user._id)
     // console.log(user.id)
 
-    const passes = await Pass.find({ generateId: user.id })
+    const passes = await Pass.find({ generatedUserId: user.id })
 
     // console.log(passes)
     if (passes.length > 0) {
@@ -77,15 +77,15 @@ const verifyPass = asyncHandler(async (req, res, next) => {
       { _id: req.params._id },
       {
         checkInStatus: true,
-        timeAtCheckIn: new Date(),
+        checkInTime: new Date(),
       }
     )
     // console.log(passVerified)
-      res.status(201).json({
-        success: true,
-        passVerified: passVerified,
-        message: "Pass verified successfully",
-      })
+    res.status(201).json({
+      success: true,
+      passVerified: passVerified,
+      message: "Pass verified successfully",
+    })
   } catch (err) {
     next(err)
   }

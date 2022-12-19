@@ -10,7 +10,7 @@ const passSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    generateId: {
+    generatedUserId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
@@ -30,7 +30,7 @@ const passSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    timeAtCheckIn: {
+    checkInTime: {
       type: String,
       default: "",
     },

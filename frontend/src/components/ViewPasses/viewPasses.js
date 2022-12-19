@@ -37,7 +37,7 @@ const ViewPasses = () => {
             <Grid item xs={4}>
               <Pass
                 key={item?.id}
-                generateId={item?.generateId}
+                generatedUserId={item?.generatedUserId}
                 name={item?.name}
                 email={item?.email}
                 phone={item?.phone}

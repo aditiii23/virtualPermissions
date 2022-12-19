@@ -1,17 +1,16 @@
 import * as React from "react"
 import Card from "@mui/material/Card"
 import CardContent from "@mui/material/CardContent"
-import Typography from "@mui/material/Typography" 
+import Typography from "@mui/material/Typography"
 import viewPassesStyle from "./viewPasses.module.css"
 
 export default function Pass(item) {
-
   return (
     <div className={viewPassesStyle.ViewPasses}>
       <Card sx={{ minWidth: 250 }}>
         <CardContent>
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            {item.generateId}
+            {item.generatedUserId}
           </Typography>
           <Typography variant="h5" component="div">
             {item.name}
