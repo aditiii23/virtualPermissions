@@ -14,7 +14,6 @@ const generatePass = asyncHandler(async (req, res, next) => {
 
     const user = await User.findOne({ _id: req.user._id })
     if (user) {
-      // console.log(user);
       const newPass = await Pass.create({
         name,
         phone,
@@ -46,11 +45,9 @@ const viewPasses = asyncHandler(async (req, res, next) => {
   try {
     await connectDB()
     const user = await User.findById(req.user._id)
-    // console.log(user.id)
 
     const passes = await Pass.find({ generatedUserId: user.id })
 
-    // console.log(passes)
     if (passes.length > 0) {
       res.status(201).json({
         success: true,
@@ -80,7 +77,6 @@ const verifyPass = asyncHandler(async (req, res, next) => {
         checkInTime: new Date(),
       }
     )
-    // console.log(passVerified)
     res.status(201).json({
       success: true,
       passVerified: passVerified,
