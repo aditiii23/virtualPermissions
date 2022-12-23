@@ -65,4 +65,30 @@ const viewPasses = asyncHandler(async (req, res, next) => {
   }
 })
 
-module.exports = { generatePass, viewPasses }
+//@desc Verify pass by guard
+//@route PUT /users/verifyPass
+const verifyPass = asyncHandler(async (req, res, next) => {
+  try {
+    await connectDB()
+    const user = await User.findById(req.user._id)
+    console.log(req.params._id)
+
+    const passVerified = await Pass.findOneAndUpdate(
+      { _id: req.params._id },
+      {
+        checkInStatus: true,
+        checkInTime: new Date(),
+      }
+    )
+    // console.log(passVerified)
+    res.status(201).json({
+      success: true,
+      passVerified: passVerified,
+      message: "Pass verified successfully",
+    })
+  } catch (err) {
+    next(err)
+  }
+})
+
+module.exports = { generatePass, viewPasses, verifyPass }
