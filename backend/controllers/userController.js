@@ -9,14 +9,13 @@ const registerUser = async (req, res, next) => {
   try {
     const { name, email, password, confirmpwd, phone } = req.body
     if (password != confirmpwd) {
-      throw new ErrorHandler(403, "Passwords do not match")
+      throw new ErrorHandler(400, "Passwords do not match")
     }
 
     const userExists = await User.findOne({ email })
 
-
     if (userExists) {
-      throw new ErrorHandler(403, "User already exists, try login")
+      throw new ErrorHandler(409, "User already exists, try login")
     }
 
     const user = await User.create({
