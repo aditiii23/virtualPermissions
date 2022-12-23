@@ -1,4 +1,3 @@
-const asyncHandler = require("express-async-handler")
 const generateToken = require("../utils/generateToken")
 const { ErrorHandler } = require("../middleware/errorMiddleware")
 const User = require("../model/user.model")
@@ -6,7 +5,7 @@ const User = require("../model/user.model")
 //@desc Register a new user
 //@route POST /users/registerUser
 
-const registerUser = asyncHandler(async (req, res, next) => {
+const registerUser = async (req, res, next) => {
   try {
     const { name, email, password, confirmpwd, phone } = req.body
 
@@ -38,12 +37,12 @@ const registerUser = asyncHandler(async (req, res, next) => {
   } catch (err) {
     next(err)
   }
-})
+}
 
 //@desc Auth user & get token
 //@route POST /users/login
 
-const loginUser = asyncHandler(async (req, res, next) => {
+const loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body
 
@@ -62,6 +61,6 @@ const loginUser = asyncHandler(async (req, res, next) => {
   } catch (err) {
     next(err)
   }
-})
+}
 
 module.exports = { registerUser, loginUser }

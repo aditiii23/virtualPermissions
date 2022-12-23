@@ -1,9 +1,8 @@
-const asyncHandler = require("express-async-handler")
 const User = require("../model/user.model")
 const jwt = require("jsonwebtoken")
 const { ErrorHandler } = require("./errorMiddleware")
 
-const protect = asyncHandler(async (req, res, next) => {
+const protect = async (req, res, next) => {
   let token
   if (
     req.headers.authorization &&
@@ -26,10 +25,10 @@ const protect = asyncHandler(async (req, res, next) => {
     res.status(401)
     throw new ErrorHandler(403, "Not authorized, no token")
   }
-})
+}
 
 const authorize = (role) => {
-  return asyncHandler(async (req, res, next) => {
+  return async (req, res, next) => {
     const user = req.user
     // console.log(user)
     try {
@@ -40,7 +39,7 @@ const authorize = (role) => {
     } catch (error) {
       next(error)
     }
-  })
+  }
 }
 
 module.exports = { protect, authorize }
