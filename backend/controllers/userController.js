@@ -8,12 +8,12 @@ const User = require("../model/user.model")
 const registerUser = async (req, res, next) => {
   try {
     const { name, email, password, confirmpwd, phone } = req.body
-
-    const userExists = await User.findOne({ email })
-
     if (password != confirmpwd) {
       throw new ErrorHandler(403, "Passwords do not match")
     }
+
+    const userExists = await User.findOne({ email })
+
 
     if (userExists) {
       throw new ErrorHandler(403, "User already exists, try login")
