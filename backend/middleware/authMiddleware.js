@@ -30,7 +30,6 @@ const protect = async (req, res, next) => {
 const authorize = (role) => {
   return async (req, res, next) => {
     const user = req.user
-    // console.log(user)
     try {
       if (!user.roles.includes(role)) {
         throw new ErrorHandler(403, "You are not authorized to access this")
