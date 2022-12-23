@@ -8,6 +8,7 @@ const { ErrorHandler, handleError } = require("./middleware/errorMiddleware.js")
 const { connectDB } = require("./config/db.js")
 
 const userRoutes = require("./routes/userRoutes.js")
+const passRoutes = require("./routes/passRoutes.js")
 
 dotenv.config()
 
@@ -26,6 +27,7 @@ app.get("/", (_req, res) => {
 })
 
 app.use("/users", userRoutes)
+app.use("/passes", passRoutes)
 
 if (process.env.NODE_ENV === "development") {
   app.get("/", (req, res) => {
