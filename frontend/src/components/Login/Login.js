@@ -21,10 +21,10 @@ const Login = () => {
   }
   const validateForm = (values) => {
     const error = {}
-    const regex = /^[^\s+@]+@[^\s@]+\.[^\s@]{2,}$/i
+    const separate = /^[^\s+@]+@[^\s@]+\.[^\s@]{2,}$/i
     if (!values.email) {
       error.email = "Email is required"
-    } else if (!regex.test(values.email)) {
+    } else if (!separate.test(values.email)) {
       error.email = "Please enter a valid email address"
     }
     if (!values.password) {
