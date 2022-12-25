@@ -15,7 +15,6 @@ const Signup = () => {
     email: "",
     password: "",
     confirmpwd: "",
-    role:"",
   })
   const [error, setError] = useState("")
 
@@ -53,9 +52,6 @@ const Signup = () => {
     }
     if (values.password != values.confirmpwd) {
       error.confirmpwd = "Passwords do not match. Try again"
-    }
-    if (!values.role) {
-      error.role = "Role is required"
     }
     return error
   }
@@ -131,15 +127,6 @@ const Signup = () => {
             value={user.confirmpwd}
           />
           <p className={basestyle.error}>{formErrors.password}</p>
-          <input
-            type="role"
-            name="role"
-            id="role"
-            placeholder="Role"
-            onChange={changeHandler}
-            value={user.role}
-          />
-          <p className={basestyle.error}>{formErrors.role}</p>
           {error?.length > 0 && <div>{error}</div>}
           <button className={basestyle.button_common} onClick={signupHandler}>
             Register
