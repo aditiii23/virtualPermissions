@@ -21,9 +21,6 @@ const generatePass = async (req, res, next) => {
       generatedUserId: user.id,
       userName: req.user.name,
     })
-    console.log(JSON.stringify(req.user))
-    console.log("*******")
-    console.log(JSON.stringify(req.user._id))
     if (newPass) {
       res.status(201).json({
         success: true,
