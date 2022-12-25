@@ -52,7 +52,7 @@ const GeneratePass = () => {
     try {
       setError("")
       const res = await axios.post(
-        "https://backend-dun-nine.vercel.app/passes/generatePass/",
+        "https://backend-aditiii23.vercel.app/passes/generatePass/",
         newPass,
         {
           headers: { authorization: "Bearer " + localStorage.getItem("token") },

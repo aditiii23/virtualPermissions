@@ -12,7 +12,7 @@ const ViewPasses = () => {
     try {
       setError("")
       const res = await axios.get(
-        "https://backend-dun-nine.vercel.app/passes/viewPasses/",
+        "https://backend-aditiii23.vercel.app/passes/viewPasses/",
         {
           headers: { authorization: "Bearer " + localStorage.getItem("token") },
         }
