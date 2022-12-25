@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
-import basestyle from "../base.module.css"
-import registerstyle from "./signup.module.css"
+import basestyle from "../Base.module.css"
+import registerstyle from "./Signup.module.css"
 import axios from "axios"
 
 import { useNavigate, NavLink } from "react-router-dom"
@@ -129,7 +129,7 @@ const Signup = () => {
           <p className={basestyle.error}>{formErrors.password}</p>
           {error?.length > 0 && <div>{error}</div>}
           <button className={basestyle.button_common} onClick={signupHandler}>
-            Register
+              Register
           </button>
         </form>
         <NavLink to="/login">Already registered? Login</NavLink>
