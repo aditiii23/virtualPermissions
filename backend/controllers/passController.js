@@ -21,6 +21,9 @@ const generatePass = async (req, res, next) => {
       generatedUserId: user.id,
       userName: req.user.name,
     })
+    console.log(JSON.stringify(req.user))
+    console.log("*******")
+    console.log(JSON.stringify(req.user._id))
     if (newPass) {
       res.status(201).json({
         success: true,
@@ -48,8 +51,6 @@ const viewPasses = async (req, res, next) => {
         passes: passes,
         message: "Passes fetched successfully",
       })
-    } else if (passes.length < 1) {
-      throw new ErrorHandler(404, "No passes found")
     }
   } catch (err) {
     next(err)
