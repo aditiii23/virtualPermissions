@@ -61,7 +61,7 @@ const Signup = () => {
     try {
       setError("")
       const res = await axios.post(
-        "https://backend-dun-nine.vercel.app/users/registerUser/",
+        "https://backend-aditiii23.vercel.app/users/registerUser/",
         user
       )
       if (res.data.success) {

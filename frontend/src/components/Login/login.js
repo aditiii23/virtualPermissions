@@ -39,7 +39,7 @@ const Login = () => {
     try {
       setError("")
       const res = await axios.post(
-        "https://backend-dun-nine.vercel.app/users/login",
+        "https://backend-aditiii23.vercel.app/users/login/",
         user
       )
       if (res.data.user && res.data.token) {
