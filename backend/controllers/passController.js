@@ -7,7 +7,6 @@ const { ErrorHandler } = require("../middleware/errorMiddleware")
 //@route POST /users/generatePass
 const generatePass = async (req, res, next) => {
   try {
-    await connectDB()
     const { name, email, phone, duration, start } = req.body
 
     const user = await User.findOne({ _id: req.user._id })
@@ -29,6 +28,7 @@ const generatePass = async (req, res, next) => {
       })
     }
   } catch (err) {
+    console.log(err)
     next(err)
   }
 }
@@ -37,7 +37,6 @@ const generatePass = async (req, res, next) => {
 //@route Get /users/viewPasses
 const viewPasses = async (req, res, next) => {
   try {
-    await connectDB()
     const user = await User.findById(req.user._id)
 
     const passes = await Pass.find({ generatedUserId: user.id })
@@ -58,8 +57,6 @@ const viewPasses = async (req, res, next) => {
 //@route PUT /users/verifyPass
 const verifyPass = async (req, res, next) => {
   try {
-    await connectDB()
-
     const passVerified = await Pass.findOneAndUpdate(
       { _id: req.params._id },
       {
