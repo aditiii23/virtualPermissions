@@ -16,7 +16,6 @@ const generatePass = async (req, res, next) => {
       email,
       duration,
       start,
-      checkInStatus: false,
       generatedUserId: user.id,
       userName: req.user.name,
     })
@@ -60,7 +59,6 @@ const verifyPass = async (req, res, next) => {
     const passVerified = await Pass.findOneAndUpdate(
       { _id: req.params._id },
       {
-        checkInStatus: true,
         checkInTime: new Date(),
       }
     )

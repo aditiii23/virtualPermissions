@@ -26,10 +26,6 @@ const passSchema = mongoose.Schema(
       type: "String",
       required: true,
     },
-    checkInStatus: {
-      type: Boolean,
-      default: false,
-    },
     checkInTime: {
       type: String,
       default: "",
