@@ -8,7 +8,7 @@ const generatePass = async (req, res, next) => {
   try {
     const { name, email, phone, duration, start } = req.body
 
-    const user = await User.findOne({ _id: req.user._id })
+    const user = req.user
     const newPass = await Pass.create({
       name,
       phone,
