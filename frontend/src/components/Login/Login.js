@@ -22,10 +22,10 @@ const Login = () => {
   }
   const validateForm = (values) => {
     const error = {}
-    const matchPattern = /^[^\s+@]+@[^\s@]+\.[^\s@]{2,}$/i
+    const emailRegex = /^[^\s+@]+@[^\s@]+\.[^\s@]{2,}$/i
     if (!values.email) {
       error.email = "Email is required"
-    } else if (!matchPattern.test(values.email)) {
+    } else if (!emailRegex.test(values.email)) {
       error.email = "Please enter a valid email address"
     }
     if (!values.password) {
@@ -39,10 +39,7 @@ const Login = () => {
     setFormErrors(validateForm(user))
     try {
       setError("")
-      const res = await axios.post(
-        `${apiUrl}/users/login`,
-        user
-      )
+      const res = await axios.post(`${apiUrl}/users/login`, user)
       if (res.data.user && res.data.token) {
         localStorage.setItem("user", JSON.stringify(res.data.user))
         localStorage.setItem("token", res.data.token)

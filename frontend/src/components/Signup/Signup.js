@@ -29,7 +29,7 @@ const Signup = () => {
 
   const validateForm = (values) => {
     const error = {}
-    const matchPattern = /^[^\s+@]+@[^\s@]+\.[^\s@]{2,}$/i
+    const emailRegex = /^[^\s+@]+@[^\s@]+\.[^\s@]{2,}$/i
     if (!values.name) {
       error.name = "Name is required"
     }
@@ -38,7 +38,7 @@ const Signup = () => {
     }
     if (!values.email) {
       error.email = "Email is required"
-    } else if (!matchPattern.test(values.email)) {
+    } else if (!emailRegex.test(values.email)) {
       error.email = "This is not a valid email format!"
     }
     if (!values.password) {
