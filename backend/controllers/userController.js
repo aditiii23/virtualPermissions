@@ -52,7 +52,13 @@ const loginUser = async (req, res, next) => {
     } else if (user && (await user.matchPassword(password))) {
       res.json({
         success: true,
-        user: user,
+        user: {
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          phone: user.phone,
+          roles: user.roles,
+        },
         token: generateToken(user._id),
         message: "User login successfully",
       })
