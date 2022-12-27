@@ -1,4 +1,3 @@
-const { connectDB } = require("../config/db")
 const User = require("../model/user.model")
 const Pass = require("../model/pass.model")
 const { ErrorHandler } = require("../middleware/errorMiddleware")
