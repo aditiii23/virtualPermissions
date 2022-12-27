@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import basestyle from "../Base.module.css"
 import loginstyle from "./Login.module.css"
+import { apiUrl } from "../../services/config"
 import axios from "axios"
 import { useNavigate, NavLink } from "react-router-dom"
 const Login = () => {
@@ -39,7 +40,7 @@ const Login = () => {
     try {
       setError("")
       const res = await axios.post(
-        "https://backend-dun-nine.vercel.app/users/login",
+        `${apiUrl}/users/login`,
         user
       )
       if (res.data.user && res.data.token) {

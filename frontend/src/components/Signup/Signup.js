@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import basestyle from "../Base.module.css"
 import registerstyle from "./Signup.module.css"
+import { apiUrl } from "../../services/config"
 import axios from "axios"
 
 import { useNavigate, NavLink } from "react-router-dom"
@@ -60,10 +61,7 @@ const Signup = () => {
     setFormErrors(validateForm(user))
     try {
       setError("")
-      const res = await axios.post(
-        "https://backend-dun-nine.vercel.app/users/registerUser/",
-        user
-      )
+      const res = await axios.post(`${apiUrl}/users/registerUser/`, user)
       if (res.data.success) {
         localStorage.setItem("user", JSON.stringify(res.data.user))
         navigate("/profile")
@@ -129,7 +127,7 @@ const Signup = () => {
           <p className={basestyle.error}>{formErrors.password}</p>
           {error?.length > 0 && <div>{error}</div>}
           <button className={basestyle.button_common} onClick={signupHandler}>
-              Register
+            Register
           </button>
         </form>
         <NavLink to="/login">Already registered? Login</NavLink>
