@@ -8,14 +8,13 @@ const generatePass = async (req, res, next) => {
   try {
     const { name, email, phone, duration, start } = req.body
 
-    const user = req.user
     const newPass = await Pass.create({
       name,
       phone,
       email,
       duration,
       start,
-      generatedUserId: user.id,
+      generatedUserId: req.user.id,
       userName: req.user.name,
     })
     if (newPass) {
