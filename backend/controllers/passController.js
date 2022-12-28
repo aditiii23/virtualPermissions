@@ -34,9 +34,7 @@ const generatePass = async (req, res, next) => {
 //@route Get /users/viewPasses
 const viewPasses = async (req, res, next) => {
   try {
-    const user = await User.findById(req.user._id)
-
-    const passes = await Pass.find({ generatedUserId: user.id })
+    const passes = await Pass.find({ generatedUserId: req.user.id })
 
     if (passes.length > 0) {
       res.status(201).json({
