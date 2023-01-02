@@ -17,13 +17,11 @@ const generatePass = async (req, res, next) => {
       generatedUserId: req.user.id,
       userName: req.user.name,
     })
-    if (newPass) {
-      res.status(201).json({
-        success: true,
-        newPass: newPass,
-        message: "Pass generated successfully",
-      })
-    }
+    res.status(201).json({
+      success: true,
+      newPass: newPass,
+      message: "Pass generated successfully",
+    })
   } catch (err) {
     console.log(err)
     next(err)
@@ -36,13 +34,11 @@ const viewPasses = async (req, res, next) => {
   try {
     const passes = await Pass.find({ generatedUserId: req.user.id })
 
-    if (passes) {
-      res.status(201).json({
-        success: true,
-        passes: passes,
-        message: "Passes fetched successfully",
-      })
-    }
+    res.status(201).json({
+      success: true,
+      passes: passes,
+      message: "Passes fetched successfully",
+    })
   } catch (err) {
     next(err)
   }
