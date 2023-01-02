@@ -1,6 +1,6 @@
 const apiUrl =
   process.env.NODE_ENV === "production"
-    ? "https://backend-aditiii23.vercel.app"
+    ? "https://backend-dun-nine.vercel.app"
     : "http://localhost:5000"
 
 export { apiUrl }
