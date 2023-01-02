@@ -36,7 +36,7 @@ const viewPasses = async (req, res, next) => {
   try {
     const passes = await Pass.find({ generatedUserId: req.user.id })
 
-    if (passes.length > 0) {
+    if (passes) {
       res.status(201).json({
         success: true,
         passes: passes,
