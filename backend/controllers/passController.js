@@ -7,6 +7,10 @@ const { ErrorHandler } = require("../middleware/errorMiddleware")
 const generatePass = async (req, res, next) => {
   try {
     const { name, email, phone, duration, start } = req.body
+    if (!name || !email || !phone || !duration || !start) {
+      throw new ErrorHandler(400, "Missing fields")
+    }
+    const userName = await User.findOne({ _id: req.user.id }, { name: 1 })
 
     const newPass = await Pass.create({
       name,
@@ -15,7 +19,7 @@ const generatePass = async (req, res, next) => {
       duration,
       start,
       generatedUserId: req.user.id,
-      userName: req.user.name,
+      generatedUserName: userName.name,
     })
     res.status(201).json({
       success: true,
