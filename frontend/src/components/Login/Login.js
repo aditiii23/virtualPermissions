@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
+import { toast, ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 import basestyle from "../Base.module.css"
 import loginstyle from "./Login.module.css"
 import { apiUrl } from "../../services/config"
@@ -38,17 +40,37 @@ const Login = () => {
     e.preventDefault()
     setFormErrors(validateForm(user))
     try {
-      setError("")
-      const res = await axios.post(`${apiUrl}/users/login`, user)
+      const error = {}
+      const emailRegex = /^[^\s+@]+@[^\s@]+\.[^\s@]{2,}$/i
+      if (!user.email) {
+        error.email = "Email is required"
+        return
+      } else if (!emailRegex.test(user.email)) {
+        error.email = "Please enter a valid email address"
+        return
+      }
+      if (!user.password) {
+        error.password = "Password is required"
+        return
+      }
+      let res = await axios.post(`${apiUrl}/users/login`, user)
+      // toast.success("Login successful!")
       if (res.data.user && res.data.token) {
         localStorage.setItem("user", JSON.stringify(res.data.user))
         localStorage.setItem("token", res.data.token)
         navigate("/profile")
       } else {
-        throw new Error("Invalid login")
+        return error
       }
     } catch (err) {
-      if (err.response) {
+      let res = err?.response?.data
+      if (res.message === "No user exists! Please Register") {
+        toast.error("No user exists! Please Register")
+      } else if (res.message === "Wrong Password") {
+        toast.error("Wrong Password")
+      } else if (res.message) {
+        toast.error("Invalid Login")
+      } else if (err.response) {
         setError(err.response.data)
       }
     }
@@ -82,6 +104,7 @@ const Login = () => {
       </form>
       {error?.length > 0 && <div>{error}</div>}
       <NavLink to="/register">Not yet registered? Register Now</NavLink>
+      <ToastContainer />
     </div>
   )
 }
