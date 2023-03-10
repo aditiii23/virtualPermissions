@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
+import { toast, ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 import basestyle from "../Base.module.css"
 import registerstyle from "./Signup.module.css"
 import { apiUrl } from "../../services/config"
@@ -30,47 +32,57 @@ const Signup = () => {
   const validateForm = (values) => {
     const error = {}
     const emailRegex = /^[^\s+@]+@[^\s@]+\.[^\s@]{2,}$/i
+    const phoneRegex = /^\+?\d{1,3}[- ]?\d{3}[- ]?\d{3}[- ]?\d{4}$/
     if (!values.name) {
       error.name = "Name is required"
+      return error
     }
     if (!values.phone) {
       error.phone = "Phone Number is required"
+      return error
+    } else if (!phoneRegex.test(values.phone)) {
+      error.phone = "Invalid Phone Number"
+      return error
     }
     if (!values.email) {
       error.email = "Email is required"
+      return error
     } else if (!emailRegex.test(values.email)) {
       error.email = "This is not a valid email format!"
+      return error
     }
     if (!values.password) {
       error.password = "Password is required"
+      return error
     } else if (values.password.length < 4) {
       error.password = "Password must be more than 4 characters"
+      return error
     } else if (values.password.length > 10) {
       error.password = "Password cannot exceed more than 10 characters"
+      return error
     }
     if (!values.confirmpwd) {
       error.confirmpwd = "Confirm Password is required"
+      return error
     }
     if (values.password != values.confirmpwd) {
       error.confirmpwd = "Passwords do not match. Try again"
+      return error
     }
-    return error
   }
   const signupHandler = async (e) => {
     e.preventDefault()
     setFormErrors(validateForm(user))
     try {
-      setError("")
       const res = await axios.post(`${apiUrl}/users/registerUser/`, user)
       if (res.data.success) {
         localStorage.setItem("user", JSON.stringify(res.data.user))
         navigate("/profile")
-      } else {
-        throw new Error("Something went wrong")
       }
     } catch (err) {
-      if (err.response) {
-        setError(err.response.data)
+      let res = err?.response?.data
+      if (res.message === "User already exists, try login") {
+        toast.error("User already exists, try login")
       }
     }
   }
@@ -131,6 +143,7 @@ const Signup = () => {
           </button>
         </form>
         <NavLink to="/login">Already registered? Login</NavLink>
+        <ToastContainer />
       </div>
     </>
   )
