@@ -46,8 +46,8 @@ const Signup = () => {
     }
     if (!values.email) {
       error.email = "Email is required"
-      return error
-    } else if (!emailRegex.test(values.email)) {
+      return error}
+     else if (!emailRegex.test(values.email)) {
       error.email = "This is not a valid email format!"
       return error
     }
@@ -64,8 +64,7 @@ const Signup = () => {
     if (!values.confirmpwd) {
       error.confirmpwd = "Confirm Password is required"
       return error
-    }
-    if (values.password != values.confirmpwd) {
+    } else if (values.password != values.confirmpwd) {
       error.confirmpwd = "Passwords do not match. Try again"
       return error
     }
@@ -80,6 +79,7 @@ const Signup = () => {
         navigate("/profile")
       }
     } catch (err) {
+      console.log(err)
       let res = err?.response?.data
       if (res.message === "User already exists, try login") {
         toast.error("User already exists, try login")
@@ -136,7 +136,7 @@ const Signup = () => {
             onChange={changeHandler}
             value={user.confirmpwd}
           />
-          <p className={basestyle.error}>{formErrors.password}</p>
+          <p className={basestyle.error}>{formErrors.confirmpwd}</p>
           {error?.length > 0 && <div>{error}</div>}
           <button className={basestyle.button_common} onClick={signupHandler}>
             Register
