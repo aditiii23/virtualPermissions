@@ -38,29 +38,18 @@ const Login = () => {
 
   const loginHandler = async (e) => {
     e.preventDefault()
-    setFormErrors(validateForm(user))
+    const err = validateForm(user)
+    setFormErrors(err)
     try {
-      const error = {}
-      const emailRegex = /^[^\s+@]+@[^\s@]+\.[^\s@]{2,}$/i
-      if (!user.email) {
-        error.email = "Email is required"
-        return
-      } else if (!emailRegex.test(user.email)) {
-        error.email = "Please enter a valid email address"
-        return
-      }
-      if (!user.password) {
-        error.password = "Password is required"
-        return
-      }
-      let res = await axios.post(`${apiUrl}/users/login`, user)
-      // toast.success("Login successful!")
-      if (res.data.user && res.data.token) {
-        localStorage.setItem("user", JSON.stringify(res.data.user))
-        localStorage.setItem("token", res.data.token)
-        navigate("/profile")
-      } else {
-        return error
+      if (Object.keys(err).length < 1) {
+        let res = await axios.post(`${apiUrl}/users/login`, user)
+        if (res.data.user && res.data.token) {
+          localStorage.setItem("user", JSON.stringify(res.data.user))
+          localStorage.setItem("token", res.data.token)
+          navigate("/profile")
+        } else {
+          return error
+        }
       }
     } catch (err) {
       let res = err?.response?.data

@@ -11,7 +11,6 @@ const Signup = () => {
   const navigate = useNavigate()
 
   const [formErrors, setFormErrors] = useState({})
-  const [isSubmit, setIsSubmit] = useState(false)
   const [user, setUserDetails] = useState({
     name: "",
     phone: "",
@@ -28,61 +27,55 @@ const Signup = () => {
       [name]: value,
     })
   }
-
   const validateForm = (values) => {
     const error = {}
     const emailRegex = /^[^\s+@]+@[^\s@]+\.[^\s@]{2,}$/i
     const phoneRegex = /^\+?\d{1,3}[- ]?\d{3}[- ]?\d{3}[- ]?\d{4}$/
     if (!values.name) {
       error.name = "Name is required"
-      return error
     }
     if (!values.phone) {
       error.phone = "Phone Number is required"
-      return error
     } else if (!phoneRegex.test(values.phone)) {
-      error.phone = "Invalid Phone Number"
-      return error
+      error.phone = "Invalid Phone Number! Please try with country code"
     }
     if (!values.email) {
       error.email = "Email is required"
-      return error}
-     else if (!emailRegex.test(values.email)) {
-      error.email = "This is not a valid email format!"
-      return error
+    } else if (!emailRegex.test(values.email)) {
+      error.email = "Invalid email! Please try again"
     }
     if (!values.password) {
       error.password = "Password is required"
-      return error
     } else if (values.password.length < 4) {
       error.password = "Password must be more than 4 characters"
-      return error
     } else if (values.password.length > 10) {
       error.password = "Password cannot exceed more than 10 characters"
-      return error
     }
     if (!values.confirmpwd) {
       error.confirmpwd = "Confirm Password is required"
-      return error
     } else if (values.password != values.confirmpwd) {
       error.confirmpwd = "Passwords do not match. Try again"
-      return error
     }
+    return error
   }
   const signupHandler = async (e) => {
     e.preventDefault()
-    setFormErrors(validateForm(user))
+    const err = validateForm(user)
+    setFormErrors(err)
     try {
-      const res = await axios.post(`${apiUrl}/users/registerUser/`, user)
-      if (res.data.success) {
-        localStorage.setItem("user", JSON.stringify(res.data.user))
-        navigate("/profile")
+      if (Object.keys(err).length < 1) {
+        const res = await axios.post(`${apiUrl}/users/registerUser/`, user)
+        if (res.data.success) {
+          localStorage.setItem("user", JSON.stringify(res.data.user))
+          navigate("/profile")
+        }
       }
     } catch (err) {
-      console.log(err)
       let res = err?.response?.data
       if (res.message === "User already exists, try login") {
         toast.error("User already exists, try login")
+      } else if (err.response) {
+        setError(err.response.data)
       }
     }
   }
