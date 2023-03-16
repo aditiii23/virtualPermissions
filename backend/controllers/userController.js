@@ -63,6 +63,8 @@ const loginUser = async (req, res, next) => {
         message: "User login successfully",
       })
     }
+    else 
+      throw new ErrorHandler(409, "Wrong Password")
   } catch (err) {
     next(err)
   }

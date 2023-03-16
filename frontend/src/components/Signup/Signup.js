@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
+import { toast } from "react-toastify"
 import basestyle from "../Base.module.css"
 import registerstyle from "./Signup.module.css"
 import { apiUrl } from "../../services/config"
@@ -9,7 +10,6 @@ const Signup = () => {
   const navigate = useNavigate()
 
   const [formErrors, setFormErrors] = useState({})
-  const [isSubmit, setIsSubmit] = useState(false)
   const [user, setUserDetails] = useState({
     name: "",
     phone: "",
@@ -17,29 +17,32 @@ const Signup = () => {
     password: "",
     confirmpwd: "",
   })
-  const [error, setError] = useState("")
 
   const changeHandler = (e) => {
     const { name, value } = e.target
-    setUserDetails({
-      ...user,
-      [name]: value,
+    setUserDetails((prevState) => {
+      return {
+        ...prevState,
+        [name]: value,
+      }
     })
   }
-
   const validateForm = (values) => {
     const error = {}
     const emailRegex = /^[^\s+@]+@[^\s@]+\.[^\s@]{2,}$/i
+    const phoneRegex = /^\+?\d{1,3}[- ]?\d{3}[- ]?\d{3}[- ]?\d{4}$/
     if (!values.name) {
       error.name = "Name is required"
     }
     if (!values.phone) {
       error.phone = "Phone Number is required"
+    } else if (!phoneRegex.test(values.phone)) {
+      error.phone = "Invalid Phone Number! Please try with country code"
     }
     if (!values.email) {
       error.email = "Email is required"
     } else if (!emailRegex.test(values.email)) {
-      error.email = "This is not a valid email format!"
+      error.email = "Invalid email! Please try again"
     }
     if (!values.password) {
       error.password = "Password is required"
@@ -50,28 +53,26 @@ const Signup = () => {
     }
     if (!values.confirmpwd) {
       error.confirmpwd = "Confirm Password is required"
-    }
-    if (values.password != values.confirmpwd) {
+    } else if (values.password != values.confirmpwd) {
       error.confirmpwd = "Passwords do not match. Try again"
     }
     return error
   }
   const signupHandler = async (e) => {
     e.preventDefault()
-    setFormErrors(validateForm(user))
+    const err = validateForm(user)
+    setFormErrors(err)
     try {
-      setError("")
-      const res = await axios.post(`${apiUrl}/users/registerUser/`, user)
-      if (res.data.success) {
-        localStorage.setItem("user", JSON.stringify(res.data.user))
-        navigate("/profile")
-      } else {
-        throw new Error("Something went wrong")
+      if (Object.keys(err).length < 1) {
+        const res = await axios.post(`${apiUrl}/users/registerUser/`, user)
+        if (res.data.success) {
+          localStorage.setItem("user", JSON.stringify(res.data.user))
+          navigate("/profile")
+        }
       }
     } catch (err) {
-      if (err.response) {
-        setError(err.response.data)
-      }
+      const res = err?.response?.data
+      toast.error(res.message)
     }
   }
 
@@ -124,8 +125,7 @@ const Signup = () => {
             onChange={changeHandler}
             value={user.confirmpwd}
           />
-          <p className={basestyle.error}>{formErrors.password}</p>
-          {error?.length > 0 && <div>{error}</div>}
+          <p className={basestyle.error}>{formErrors.confirmpwd}</p>
           <button className={basestyle.button_common} onClick={signupHandler}>
             Register
           </button>

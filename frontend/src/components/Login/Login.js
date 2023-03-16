@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
+import { toast } from "react-toastify"
 import basestyle from "../Base.module.css"
 import loginstyle from "./Login.module.css"
 import { apiUrl } from "../../services/config"
@@ -11,13 +12,14 @@ const Login = () => {
     email: "",
     password: "",
   })
-  const [error, setError] = useState("")
 
   const changeHandler = (e) => {
     const { name, value } = e.target
-    setUserDetails({
-      ...user,
-      [name]: value,
+    setUserDetails((prevState) => {
+      return {
+        ...prevState,
+        [name]: value,
+      }
     })
   }
   const validateForm = (values) => {
@@ -36,21 +38,20 @@ const Login = () => {
 
   const loginHandler = async (e) => {
     e.preventDefault()
-    setFormErrors(validateForm(user))
+    const err = validateForm(user)
+    setFormErrors(err)
     try {
-      setError("")
-      const res = await axios.post(`${apiUrl}/users/login`, user)
-      if (res.data.user && res.data.token) {
-        localStorage.setItem("user", JSON.stringify(res.data.user))
-        localStorage.setItem("token", res.data.token)
-        navigate("/profile")
-      } else {
-        throw new Error("Invalid login")
+      if (Object.keys(err).length < 1) {
+        let res = await axios.post(`${apiUrl}/users/login`, user)
+        if (res.data.user && res.data.token) {
+          localStorage.setItem("user", JSON.stringify(res.data.user))
+          localStorage.setItem("token", res.data.token)
+          navigate("/profile")
+        }
       }
     } catch (err) {
-      if (err.response) {
-        setError(err.response.data)
-      }
+      const res = err?.response?.data
+      toast.error(res.message)
     }
   }
 
@@ -80,7 +81,6 @@ const Login = () => {
           Login
         </button>
       </form>
-      {error?.length > 0 && <div>{error}</div>}
       <NavLink to="/register">Not yet registered? Register Now</NavLink>
     </div>
   )
