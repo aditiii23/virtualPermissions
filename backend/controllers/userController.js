@@ -7,11 +7,11 @@ const User = require("../model/user.model")
 
 const registerUser = async (req, res, next) => {
   try {
-    const { name, email, password, confirmpwd, phone } = req.body
+    let { name, email, password, confirmpwd, phone } = req.body
     if (password != confirmpwd) {
       throw new ErrorHandler(400, "Passwords do not match")
     }
-
+    email = email.toLowerCase()
     const userExists = await User.findOne({ email })
 
     if (userExists) {
@@ -43,7 +43,8 @@ const registerUser = async (req, res, next) => {
 
 const loginUser = async (req, res, next) => {
   try {
-    const { email, password } = req.body
+    let { email, password } = req.body
+    email = email.toLowerCase()
 
     const user = await User.findOne({ email })
 
@@ -62,9 +63,7 @@ const loginUser = async (req, res, next) => {
         token: generateToken(user._id),
         message: "User login successfully",
       })
-    }
-    else 
-      throw new ErrorHandler(409, "Wrong Password")
+    } else throw new ErrorHandler(409, "Wrong Password")
   } catch (err) {
     next(err)
   }
