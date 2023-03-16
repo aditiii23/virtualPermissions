@@ -1,6 +1,5 @@
 import React, { useState } from "react"
-import { toast, ToastContainer } from "react-toastify"
-import "react-toastify/dist/ReactToastify.css"
+import { toast } from "react-toastify"
 import basestyle from "../Base.module.css"
 import registerstyle from "./Signup.module.css"
 import { apiUrl } from "../../services/config"
@@ -18,13 +17,14 @@ const Signup = () => {
     password: "",
     confirmpwd: "",
   })
-  const [error, setError] = useState("")
 
   const changeHandler = (e) => {
     const { name, value } = e.target
-    setUserDetails({
-      ...user,
-      [name]: value,
+    setUserDetails((prevState) => {
+      return {
+        ...prevState,
+        [name]: value,
+      }
     })
   }
   const validateForm = (values) => {
@@ -71,12 +71,8 @@ const Signup = () => {
         }
       }
     } catch (err) {
-      let res = err?.response?.data
-      if (res.message === "User already exists, try login") {
-        toast.error("User already exists, try login")
-      } else if (err.response) {
-        setError(err.response.data)
-      }
+      const res = err?.response?.data
+      toast.error(res.message)
     }
   }
 
@@ -130,13 +126,11 @@ const Signup = () => {
             value={user.confirmpwd}
           />
           <p className={basestyle.error}>{formErrors.confirmpwd}</p>
-          {error?.length > 0 && <div>{error}</div>}
           <button className={basestyle.button_common} onClick={signupHandler}>
             Register
           </button>
         </form>
         <NavLink to="/login">Already registered? Login</NavLink>
-        <ToastContainer />
       </div>
     </>
   )

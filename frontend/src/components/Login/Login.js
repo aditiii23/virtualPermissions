@@ -1,6 +1,5 @@
 import React, { useState } from "react"
-import { toast, ToastContainer } from "react-toastify"
-import "react-toastify/dist/ReactToastify.css"
+import { toast } from "react-toastify"
 import basestyle from "../Base.module.css"
 import loginstyle from "./Login.module.css"
 import { apiUrl } from "../../services/config"
@@ -13,13 +12,14 @@ const Login = () => {
     email: "",
     password: "",
   })
-  const [error, setError] = useState("")
 
   const changeHandler = (e) => {
     const { name, value } = e.target
-    setUserDetails({
-      ...user,
-      [name]: value,
+    setUserDetails((prevState) => {
+      return {
+        ...prevState,
+        [name]: value,
+      }
     })
   }
   const validateForm = (values) => {
@@ -47,21 +47,11 @@ const Login = () => {
           localStorage.setItem("user", JSON.stringify(res.data.user))
           localStorage.setItem("token", res.data.token)
           navigate("/profile")
-        } else {
-          return error
         }
       }
     } catch (err) {
-      let res = err?.response?.data
-      if (res.message === "No user exists! Please Register") {
-        toast.error("No user exists! Please Register")
-      } else if (res.message === "Wrong Password") {
-        toast.error("Wrong Password")
-      } else if (res.message) {
-        toast.error("Invalid Login")
-      } else if (err.response) {
-        setError(err.response.data)
-      }
+      const res = err?.response?.data
+      toast.error(res.message)
     }
   }
 
@@ -91,9 +81,7 @@ const Login = () => {
           Login
         </button>
       </form>
-      {error?.length > 0 && <div>{error}</div>}
       <NavLink to="/register">Not yet registered? Register Now</NavLink>
-      <ToastContainer />
     </div>
   )
 }
