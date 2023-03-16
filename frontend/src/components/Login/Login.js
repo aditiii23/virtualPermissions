@@ -25,7 +25,6 @@ const Login = () => {
   const validateForm = (values) => {
     const error = {}
     const emailRegex = /^[^\s+@]+@[^\s@]+\.[^\s@]{2,}$/i
-    values.email = values.email.toLowerCase()
     if (!values.email) {
       error.email = "Email is required"
     } else if (!emailRegex.test(values.email)) {

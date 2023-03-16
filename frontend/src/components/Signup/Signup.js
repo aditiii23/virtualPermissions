@@ -31,7 +31,6 @@ const Signup = () => {
     const error = {}
     const emailRegex = /^[^\s+@]+@[^\s@]+\.[^\s@]{2,}$/i
     const phoneRegex = /^\+?\d{1,3}[- ]?\d{3}[- ]?\d{3}[- ]?\d{4}$/
-    values.email = values.email.toLowerCase()
     if (!values.name) {
       error.name = "Name is required"
     }
