@@ -7,7 +7,8 @@ const User = require("../model/user.model")
 
 const registerUser = async (req, res, next) => {
   try {
-    let { name, email, password, confirmpwd, phone } = req.body
+    const { name, password, confirmpwd, phone } = req.body
+    let email = req.body.email
     if (password != confirmpwd) {
       throw new ErrorHandler(400, "Passwords do not match")
     }
