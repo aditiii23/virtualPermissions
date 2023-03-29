@@ -44,7 +44,8 @@ const registerUser = async (req, res, next) => {
 
 const loginUser = async (req, res, next) => {
   try {
-    let { email, password } = req.body
+    const { password } = req.body
+    let email = req.body.email
     email = email.toLowerCase()
 
     const user = await User.findOne({ email })
