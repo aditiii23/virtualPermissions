@@ -1,0 +1,35 @@
+.header {
+    padding: 10px;
+    color: rgb(34, 135, 148);
+    text-align: left;
+    font-size: 20px;
+    font-family: 'Courier New';
+    font-weight: bold;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #e7eee0;
+    display: flex;
+}
+
+.ulStyling {
+    list-style-type: none
+}
+
+.button_common {
+    color: rgb(66, 78, 248);
+    padding: 5px 7px;
+    border: 1px;
+    font-size: 22px;
+    border-radius: 15px;
+    margin: 1rem;
+    width: 50%;
+    cursor: pointer;
+    align-items: center;
+}
+
+@media only screen and (max-width: 900px) {
+    .header {
+        width: 100%
+    }
+}

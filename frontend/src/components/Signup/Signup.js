@@ -79,7 +79,7 @@ const Signup = () => {
   return (
     <>
       <div className={registerstyle.register}>
-        <form>
+        <form className={registerstyle.registerform}>
           <h1>Create your account</h1>
           <input
             type="text"
@@ -129,8 +129,8 @@ const Signup = () => {
           <button className={basestyle.button_common} onClick={signupHandler}>
             Register
           </button>
+          <NavLink to="/login">Already registered? Login</NavLink>
         </form>
-        <NavLink to="/login">Already registered? Login</NavLink>
       </div>
     </>
   )
