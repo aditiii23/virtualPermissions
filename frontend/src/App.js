@@ -5,7 +5,7 @@ import Signup from "./components/Signup/Signup"
 import "react-toastify/dist/ReactToastify.css"
 import { ToastContainer } from "react-toastify"
 import Header from "./components/Header/Header"
-import { reducer, initialState } from "./components/reducers/userReducer"
+import { reducer, initialState } from "./reducers/userReducer"
 import React, { useEffect, createContext, useReducer, useContext } from "react"
 
 export const UserContext = createContext()
