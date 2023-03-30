@@ -1,9 +1,7 @@
 import React, { useContext, useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import headerstyle from "./Header.module.css"
-import "bootstrap/dist/css/bootstrap.css"
 import { UserContext } from "../../App"
-import { Container } from "react-bootstrap"
 
 const Header = () => {
   const navigate = useNavigate()
@@ -48,14 +46,14 @@ const Header = () => {
   return (
     <nav>
       <div className={headerstyle.header}>
-        <Container>
+        <div className={headerstyle.container}>
           <Link to={state ? "/" : "/login"} className="logoStyle left">
             Virtual Permissions
           </Link>
           <ul className="ulStyling">
             {renderList()}
           </ul>
-        </Container>
+        </div>
       </div>
     </nav>
   )
