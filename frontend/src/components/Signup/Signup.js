@@ -71,8 +71,7 @@ const Signup = () => {
         }
       }
     } catch (err) {
-      const res = err?.response?.data
-      toast.error(res.message)
+      toast.error(err?.response?.data?.message)
     }
   }
 

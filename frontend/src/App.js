@@ -1,4 +1,4 @@
-import "./App.css"
+import appstyle from "./App.module.css"
 import Login from "./components/Login/Login"
 import { BrowserRouter, useNavigate, Routes, Route } from "react-router-dom"
 import Signup from "./components/Signup/Signup"
@@ -40,16 +40,14 @@ function App() {
   const [state, dispatch] = useReducer(reducer, initialState)
   return (
     <UserContext.Provider value={{ state, dispatch }}>
-      <BrowserRouter
-        className="App"
-        style={{
-          backgroundImage:
-            "url(https://coolbackgrounds.io/images/backgrounds/index/ranger-4df6c1b6.png)",
-        }}
+      <div
+        className={appstyle.App}
       >
-        <Header />
-        <Routing />
-      </BrowserRouter>
+        <BrowserRouter>
+          <Header />
+          <Routing />
+        </BrowserRouter>
+      </div>
     </UserContext.Provider>
   )
 }

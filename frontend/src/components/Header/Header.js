@@ -10,31 +10,36 @@ const Header = () => {
   useEffect(() => {
     renderList()
   }, [state])
+
+  const logoutHandler = () => {
+    return [
+      <li>
+        <Link
+          to="/login"
+          className={headerstyle.button_common}
+          onClick={() => {
+            navigate("/login")
+            localStorage.clear()
+            dispatch({ type: "CLEAR" })
+          }}
+        >
+          Logout
+        </Link>
+      </li>,
+    ]
+  }
+
   const renderList = () => {
     if (state) {
-      return [
-        <li className="ulStyling">
-          <Link
-            to="/login"
-            className={headerstyle.button_common}
-            onClick={() => {
-              navigate("/login")
-              localStorage.clear()
-              dispatch({ type: "CLEAR" })
-            }}
-          >
-            Logout
-          </Link>
-        </li>,
-      ]
+      return logoutHandler()
     } else {
       return [
-        <li className="ulStyling">
+        <li>
           <Link to="/login" className={headerstyle.button_common}>
             Login
           </Link>
         </li>,
-        <li className="ulStyling">
+        <li>
           <Link to="/register" className={headerstyle.button_common}>
             Register
           </Link>
@@ -44,15 +49,11 @@ const Header = () => {
   }
 
   return (
-    <nav>
+    <nav className={headerstyle.nav}>
       <div className={headerstyle.header}>
         <div className={headerstyle.container}>
-          <Link to={state ? "/" : "/login"} className="logoStyle left">
-            Virtual Permissions
-          </Link>
-          <ul className="ulStyling">
-            {renderList()}
-          </ul>
+          <Link to={state ? "/" : "/login"}>Virtual Permissions</Link>
+          <ul>{renderList()}</ul>
         </div>
       </div>
     </nav>
