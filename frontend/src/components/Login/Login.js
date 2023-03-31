@@ -50,14 +50,13 @@ const Login = () => {
         }
       }
     } catch (err) {
-      const res = err?.response?.data
-      toast.error(res.message)
+      toast.error(err?.response?.data?.message)
     }
   }
 
   return (
     <div className={loginstyle.login}>
-      <form>
+      <form className={loginstyle.loginform}>
         <h1>Login</h1>
         <input
           type="email"

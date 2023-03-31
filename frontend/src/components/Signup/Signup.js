@@ -71,15 +71,14 @@ const Signup = () => {
         }
       }
     } catch (err) {
-      const res = err?.response?.data
-      toast.error(res.message)
+      toast.error(err?.response?.data?.message)
     }
   }
 
   return (
     <>
       <div className={registerstyle.register}>
-        <form>
+        <form className={registerstyle.registerform}>
           <h1>Create your account</h1>
           <input
             type="text"
@@ -129,8 +128,8 @@ const Signup = () => {
           <button className={basestyle.button_common} onClick={signupHandler}>
             Register
           </button>
+          <NavLink to="/login">Already registered? Login</NavLink>
         </form>
-        <NavLink to="/login">Already registered? Login</NavLink>
       </div>
     </>
   )
