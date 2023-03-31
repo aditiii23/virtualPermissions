@@ -14,6 +14,10 @@ const passSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
+    generatedUserName: {
+      type: mongoose.Schema.Types.String,
+      ref: "User",
+    },
     duration: {
       type: Number,
       required: true,

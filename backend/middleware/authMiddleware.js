@@ -4,27 +4,27 @@ const { ErrorHandler } = require("./errorMiddleware")
 
 const authorize = (role) => {
   return async (req, res, next) => {
-    if (
-      req.headers.authorization &&
-      req.headers.authorization.startsWith("Bearer")
-    ) {
-      try {
+    try {
+      if (
+        req.headers.authorization &&
+        req.headers.authorization.startsWith("Bearer")
+      ) {
         let token
         token = req.headers.authorization.split(" ")[1]
         if (!token) {
-          throw new ErrorHandler(400, "Not authorized, no token")
+          throw new ErrorHandler(498, "No authorization token found")
         }
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
-        req.user = await User.findById(decoded.id)
-        const user = req.user
-        if (!user.roles.includes(role)) {
+        req.user = await User.findOne({ _id: decoded.id }, { roles: 1 })
+        if (!req.user.roles.includes(role)) {
           throw new ErrorHandler(403, "You are not authorized to access this")
         }
-
         next()
-      } catch (error) {
-        next(error)
+      } else {
+        throw new ErrorHandler(499, "No authorization token found")
       }
+    } catch (error) {
+      next(error)
     }
   }
 }
