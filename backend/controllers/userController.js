@@ -8,10 +8,9 @@ const User = require("../model/user.model")
 const registerUser = async (req, res, next) => {
   try {
     const { name, password, confirmpwd, phone } = req.body
-    let email = req.body.email
-    if (!email || email.length() == 0)
+    let email = req.body.email?.toLowerCase()
+    if (!email?.length)
       throw new ErrorHandler(400, "Please enter a valid email address")
-    else email = email.toLowerCase()
     if (password != confirmpwd) {
       throw new ErrorHandler(400, "Passwords do not match")
     }
@@ -47,10 +46,9 @@ const registerUser = async (req, res, next) => {
 const loginUser = async (req, res, next) => {
   try {
     const { password } = req.body
-    let email = req.body.email
-    if (!email || email.length() == 0)
+    let email = req.body.email?.toLowerCase()
+    if (!email?.length)
       throw new ErrorHandler(400, "Please enter a valid email address")
-    else email = email.toLowerCase()
 
     const user = await User.findOne({ email })
 
