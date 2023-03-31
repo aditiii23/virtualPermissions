@@ -1,9 +1,10 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import { toast } from "react-toastify"
 import basestyle from "../Base.module.css"
 import loginstyle from "./Login.module.css"
 import { apiUrl } from "../../services/config"
 import axios from "axios"
+import { UserContext } from "../../App"
 import { useNavigate, NavLink } from "react-router-dom"
 const Login = () => {
   const navigate = useNavigate()
@@ -12,6 +13,7 @@ const Login = () => {
     email: "",
     password: "",
   })
+  const { dispatch } = useContext(UserContext)
 
   const changeHandler = (e) => {
     const { name, value } = e.target
@@ -47,6 +49,7 @@ const Login = () => {
           localStorage.setItem("user", JSON.stringify(res.data.user))
           localStorage.setItem("token", res.data.token)
           navigate("/profile")
+          dispatch({ type: "USER", payload: res.data.user })
         }
       }
     } catch (err) {
