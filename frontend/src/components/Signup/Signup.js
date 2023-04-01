@@ -1,9 +1,10 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import { toast } from "react-toastify"
 import basestyle from "../Base.module.css"
 import registerstyle from "./Signup.module.css"
 import { apiUrl } from "../../services/config"
 import axios from "axios"
+import { UserContext } from "../../App"
 
 import { useNavigate, NavLink } from "react-router-dom"
 const Signup = () => {
@@ -17,6 +18,7 @@ const Signup = () => {
     password: "",
     confirmpwd: "",
   })
+  const { dispatch } = useContext(UserContext)
 
   const changeHandler = (e) => {
     const { name, value } = e.target
@@ -68,6 +70,7 @@ const Signup = () => {
         if (res.data.success) {
           localStorage.setItem("user", JSON.stringify(res.data.user))
           navigate("/profile")
+          dispatch({ type: "USER", payload: res.data.user })
         }
       }
     } catch (err) {
