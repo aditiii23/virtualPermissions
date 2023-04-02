@@ -13,6 +13,7 @@ const Login = () => {
     email: "",
     password: "",
   })
+  const [isLoading, setIsLoading] = useState(false)
   const { dispatch } = useContext(UserContext)
 
   const changeHandler = (e) => {
@@ -43,6 +44,7 @@ const Login = () => {
     const err = validateForm(user)
     setFormErrors(err)
     try {
+      setIsLoading(true)
       if (Object.keys(err).length < 1) {
         let res = await axios.post(`${apiUrl}/users/login`, user)
         if (res.data.user && res.data.token) {
@@ -54,6 +56,8 @@ const Login = () => {
       }
     } catch (err) {
       toast.error(err?.response?.data?.message)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -68,6 +72,7 @@ const Login = () => {
           placeholder="Email"
           onChange={changeHandler}
           value={user.email}
+          disabled={isLoading}
         />
         <p className={basestyle.error}>{formErrors.email}</p>
         <input
@@ -77,9 +82,14 @@ const Login = () => {
           placeholder="Password"
           onChange={changeHandler}
           value={user.password}
+          disabled={isLoading}
         />
         <p className={basestyle.error}>{formErrors.password}</p>
-        <button className={basestyle.button_common} onClick={loginHandler}>
+        <button
+          className={basestyle.button_common}
+          onClick={loginHandler}
+          disabled={isLoading}
+        >
           Login
         </button>
       </form>
