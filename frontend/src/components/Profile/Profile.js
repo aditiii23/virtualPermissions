@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import basestyle from "../Base.module.css"
+import profilestyle from "./Profile.module.css"
 import GeneratePass from "../GeneratePass/GeneratePass"
 import ViewPasses from "../ViewPasses/ViewPasses"
 
@@ -8,21 +9,15 @@ const Profile = () => {
   const [click2, setClick2] = useState(false)
   // if (click1 == true) {
   return (
-    <div>
+    <div className={profilestyle.profile}>
       {click1 == false ? (
-        <button
-          className={basestyle.button_common}
-          onClick={() => setClick1(true)}
-        >
+        <button className={profilestyle.button} onClick={() => setClick1(true)}>
           Generate Pass
         </button>
       ) : null}
       {click1 ? <GeneratePass /> : null}
       {click2 == false ? (
-        <button
-          className={basestyle.button_common}
-          onClick={() => setClick2(true)}
-        >
+        <button className={profilestyle.button} onClick={() => setClick2(true)}>
           View Passes
         </button>
       ) : null}

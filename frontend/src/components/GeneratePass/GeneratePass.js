@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { toast } from "react-toastify"
 import basestyle from "../Base.module.css"
 import generatePassStyle from "./GeneratePass.module.css"
 import { apiUrl } from "../../services/config"
@@ -8,6 +9,7 @@ import { useNavigate } from "react-router-dom"
 const GeneratePass = () => {
   const navigate = useNavigate()
   const [formErrors, setFormErrors] = useState({})
+  const [isLoading, setIsLoading] = useState(false)
   const [newPass, setPassDetails] = useState({
     name: "",
     phone: "",
@@ -15,7 +17,6 @@ const GeneratePass = () => {
     duration: "",
     start: "",
   })
-  const [error, setError] = useState("")
 
   const changeHandler = (e) => {
     const { name, value } = e.target
@@ -27,7 +28,7 @@ const GeneratePass = () => {
 
   const validateForm = (values) => {
     const error = {}
-    const regex = /^[^\s+@]+@[^\s@]+\.[^\s@]{2,}$/i
+    const emailRegex = /^[^\s+@]+@[^\s@]+\.[^\s@]{2,}$/i
     if (!values.name) {
       error.name = "Name is required"
     }
@@ -36,7 +37,7 @@ const GeneratePass = () => {
     }
     if (!values.email) {
       error.email = "Email is required"
-    } else if (!regex.test(values.email)) {
+    } else if (!emailRegex.test(values.email)) {
       error.email = "This is not a valid email format!"
     }
     if (!values.duration) {
@@ -49,22 +50,25 @@ const GeneratePass = () => {
   }
   const generatePassHandler = async (e) => {
     e.preventDefault()
-    setFormErrors(validateForm(newPass))
+    const err = validateForm(newPass)
+    setFormErrors(err)
     try {
-      setError("")
-      const res = await axios.post(`${apiUrl}/passes/generatePass/`, newPass, {
-        headers: { authorization: "Bearer " + localStorage.getItem("token") },
-      })
-      if (res.data.success) {
-        localStorage.setItem("newPass", JSON.stringify(res.data.newPass))
-        navigate("/viewPasses")
-      } else {
-        throw new Error("Something went wrong")
+      setIsLoading(true)
+      if (Object.keys(err).length < 1) {
+        let res = await axios.post(`${apiUrl}/passes/generatePass/`, newPass, {
+          headers: {
+            authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        })
+        if (res.data.success) {
+          localStorage.setItem("newPass", JSON.stringify(res.data.newPass))
+          navigate("/viewPasses")
+        }
       }
     } catch (err) {
-      if (err.response) {
-        setError(err.response.data)
-      }
+      toast.error(err?.response?.data?.message)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -80,6 +84,7 @@ const GeneratePass = () => {
             placeholder="Name"
             onChange={changeHandler}
             value={newPass.name}
+            disabled={isLoading}
           />
           <p className={basestyle.error}>{formErrors.name}</p>
           <input
@@ -89,6 +94,7 @@ const GeneratePass = () => {
             placeholder="Phone Number"
             onChange={changeHandler}
             value={newPass.phone}
+            disabled={isLoading}
           />
           <p className={basestyle.error}>{formErrors.phone}</p>
           <input
@@ -98,30 +104,33 @@ const GeneratePass = () => {
             placeholder="Email"
             onChange={changeHandler}
             value={newPass.email}
+            disabled={isLoading}
           />
           <p className={basestyle.error}>{formErrors.email}</p>
           <input
-            type="duration"
+            type="date"
             name="duration"
             id="duration"
             placeholder="Duration"
             onChange={changeHandler}
             value={newPass.duration}
+            disabled={isLoading}
           />
           <p className={basestyle.error}>{formErrors.duration}</p>
           <input
-            type="start"
+            type="date"
             name="start"
             id="start"
             placeholder="Start Date"
             onChange={changeHandler}
             value={newPass.start}
+            disabled={isLoading}
           />
           <p className={basestyle.error}>{formErrors.start}</p>
-          {error?.length > 0 && <div>{error}</div>}
           <button
             className={basestyle.button_common}
             onClick={generatePassHandler}
+            disabled={isLoading}
           >
             Generate Pass
           </button>
