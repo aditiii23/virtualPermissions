@@ -2,12 +2,13 @@
     background-color: olivedrab;
     color: white;
     padding: 15px 30px;
-    border: none;
+    border: 1px;
     font-size: 22px;
     border-radius: 15px;
     margin: 1rem;
-    width: 90%;
+    width: 50%;
     cursor: pointer;
+    align-items: center;
 }
 
 .error {

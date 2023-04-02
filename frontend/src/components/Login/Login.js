@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useContext } from "react"
+import { toast } from "react-toastify"
 import basestyle from "../Base.module.css"
 import loginstyle from "./Login.module.css"
 import { apiUrl } from "../../services/config"
 import axios from "axios"
+import { UserContext } from "../../App"
 import { useNavigate, NavLink } from "react-router-dom"
 const Login = () => {
   const navigate = useNavigate()
@@ -11,13 +13,16 @@ const Login = () => {
     email: "",
     password: "",
   })
-  const [error, setError] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
+  const { dispatch } = useContext(UserContext)
 
   const changeHandler = (e) => {
     const { name, value } = e.target
-    setUserDetails({
-      ...user,
-      [name]: value,
+    setUserDetails((prevState) => {
+      return {
+        ...prevState,
+        [name]: value,
+      }
     })
   }
   const validateForm = (values) => {
@@ -36,27 +41,29 @@ const Login = () => {
 
   const loginHandler = async (e) => {
     e.preventDefault()
-    setFormErrors(validateForm(user))
+    const err = validateForm(user)
+    setFormErrors(err)
     try {
-      setError("")
-      const res = await axios.post(`${apiUrl}/users/login`, user)
-      if (res.data.user && res.data.token) {
-        localStorage.setItem("user", JSON.stringify(res.data.user))
-        localStorage.setItem("token", res.data.token)
-        navigate("/profile")
-      } else {
-        throw new Error("Invalid login")
+      setIsLoading(true)
+      if (Object.keys(err).length < 1) {
+        let res = await axios.post(`${apiUrl}/users/login`, user)
+        if (res.data.user && res.data.token) {
+          localStorage.setItem("user", JSON.stringify(res.data.user))
+          localStorage.setItem("token", res.data.token)
+          navigate("/profile")
+          dispatch({ type: "USER", payload: res.data.user })
+        }
       }
     } catch (err) {
-      if (err.response) {
-        setError(err.response.data)
-      }
+      toast.error(err?.response?.data?.message)
+    } finally {
+      setIsLoading(false)
     }
   }
 
   return (
     <div className={loginstyle.login}>
-      <form>
+      <form className={loginstyle.loginform}>
         <h1>Login</h1>
         <input
           type="email"
@@ -65,6 +72,7 @@ const Login = () => {
           placeholder="Email"
           onChange={changeHandler}
           value={user.email}
+          disabled={isLoading}
         />
         <p className={basestyle.error}>{formErrors.email}</p>
         <input
@@ -74,13 +82,17 @@ const Login = () => {
           placeholder="Password"
           onChange={changeHandler}
           value={user.password}
+          disabled={isLoading}
         />
         <p className={basestyle.error}>{formErrors.password}</p>
-        <button className={basestyle.button_common} onClick={loginHandler}>
+        <button
+          className={basestyle.button_common}
+          onClick={loginHandler}
+          disabled={isLoading}
+        >
           Login
         </button>
       </form>
-      {error?.length > 0 && <div>{error}</div>}
       <NavLink to="/register">Not yet registered? Register Now</NavLink>
     </div>
   )
