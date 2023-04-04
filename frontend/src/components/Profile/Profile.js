@@ -1,36 +1,40 @@
 import React, { useState } from "react"
-import basestyle from "../Base.module.css"
+import profilestyle from "./Profile.module.css"
 import GeneratePass from "../GeneratePass/GeneratePass"
 import ViewPasses from "../ViewPasses/ViewPasses"
+import { useNavigate } from "react-router-dom"
 
 const Profile = () => {
-  const [click1, setClick1] = useState(false)
-  const [click2, setClick2] = useState(false)
-  // if (click1 == true) {
+  const navigate = useNavigate()
+  const [generate, setgenerate] = useState(false)
+  const [view, setView] = useState(false)
   return (
-    <div>
-      {click1 == false ? (
+    <div className={profilestyle.profile}>
+      {generate == false ? (
         <button
-          className={basestyle.button_common}
-          onClick={() => setClick1(true)}
+          className={profilestyle.button}
+          onClick={() => {
+            setgenerate(true)
+            navigate("/generatePass")
+          }}
         >
           Generate Pass
         </button>
       ) : null}
-      {click1 ? <GeneratePass /> : null}
-      {click2 == false ? (
+      {generate ? <GeneratePass /> : null}
+      {view == false ? (
         <button
-          className={basestyle.button_common}
-          onClick={() => setClick2(true)}
+          className={profilestyle.button}
+          onClick={() => {
+            setView(true)
+            navigate("/viewPasses")
+          }}
         >
           View Passes
         </button>
       ) : null}
-      {click2 ? <ViewPasses /> : null}
+      {view ? <ViewPasses /> : null}
     </div>
   )
-  // } else if (click2 == true && click1==false) {
-  // return <div></div>
-  // }
 }
 export default Profile
