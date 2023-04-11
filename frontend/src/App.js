@@ -24,7 +24,7 @@ const Routing = () => {
       dispatch({ type: "USER", payload: user })
       navigate("/")
     } else {
-      navigate("/register")
+      navigate("/login")
     }
   }, [])
   return (
