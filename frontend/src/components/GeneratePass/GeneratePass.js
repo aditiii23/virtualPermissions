@@ -60,10 +60,7 @@ const GeneratePass = () => {
             authorization: "Bearer " + localStorage.getItem("token"),
           },
         })
-        if (res.data.success) {
-          localStorage.setItem("newPass", JSON.stringify(res.data.newPass))
-          navigate("/viewPasses")
-        }
+        navigate("/viewPasses")
       }
     } catch (err) {
       toast.error(err?.response?.data?.message)
