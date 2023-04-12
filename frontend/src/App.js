@@ -24,16 +24,15 @@ const Routing = () => {
       dispatch({ type: "USER", payload: user })
       navigate("/")
     } else {
-      navigate("/register")
+      navigate("/login")
     }
   }, [])
   return (
     <>
       <Routes>
-        <Route path="/"></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/register" element={<Signup />}></Route>
-        <Route path="/profile" element={<Profile />}></Route>
+        <Route path="/" element={<Profile />}></Route>
         <Route path="/generatePass" element={<GeneratePass />}></Route>
         <Route path="/viewPasses" element={<ViewPasses />}></Route>
       </Routes>
