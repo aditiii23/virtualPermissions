@@ -52,7 +52,7 @@ const Header = () => {
     <nav className={headerstyle.nav}>
       <div className={headerstyle.header}>
         <div className={headerstyle.container}>
-          <Link to={state ? "/profile" : "/"}>Virtual Permissions</Link>
+          <Link to={state ? "/" : "/login"}>Virtual Permissions</Link>
           <ul>{renderList()}</ul>
         </div>
       </div>
