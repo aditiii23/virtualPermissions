@@ -23,7 +23,7 @@ const passSchema = mongoose.Schema(
       required: true,
     },
     start: {
-      type: "String",
+      type: Date,
       required: true,
     },
     checkInTime: {
