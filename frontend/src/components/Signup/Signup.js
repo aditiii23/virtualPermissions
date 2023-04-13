@@ -71,7 +71,7 @@ const Signup = () => {
         const res = await axios.post(`${apiUrl}/users/registerUser/`, user)
         if (res.data.success) {
           localStorage.setItem("user", JSON.stringify(res.data.user))
-          navigate("/profile")
+          navigate("/")
           dispatch({ type: "USER", payload: res.data.user })
         }
       }

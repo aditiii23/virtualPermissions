@@ -50,7 +50,7 @@ const Login = () => {
         if (res.data.user && res.data.token) {
           localStorage.setItem("user", JSON.stringify(res.data.user))
           localStorage.setItem("token", res.data.token)
-          navigate("/profile")
+          navigate("/")
           dispatch({ type: "USER", payload: res.data.user })
         }
       }
