@@ -21,7 +21,7 @@ export default function Pass(item) {
         <p>{item.phone}</p>
         <p>{item.duration}</p>
         <p>{startDate?.substring(0,10)}</p>
-        <p>{startDate?.substring(12, startDate.length)}</p>
+        <p>{startDate?.substring(11, startDate.length-8)}</p>
       </div>
     </div>
   )
