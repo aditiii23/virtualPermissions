@@ -2,9 +2,7 @@ import * as React from "react"
 import viewPassesStyle from "./ViewPasses.module.css"
 
 export default function Pass(item) {
-  const startDate = new Date(item.start).toLocaleString(undefined, {
-    timeZone: "Asia/Kolkata",
-  })
+  const startDate = item.start
 
   return (
     <div className={viewPassesStyle.card}>
