@@ -46,6 +46,9 @@ const GeneratePass = () => {
     if (!values.start) {
       error.start = "Start Date is required"
     }
+    if (new Date(values.start).getTime()+60000 < new Date()) {
+      error.start = "Start time and date to be greater than current"
+    }
     return error
   }
   const generatePassHandler = async (e) => {
@@ -117,9 +120,10 @@ const GeneratePass = () => {
           />
           <p className={basestyle.error}>{formErrors.duration}</p>
           <input
-            type="date"
+            type="datetime-local"
             name="start"
             id="start"
+            min={new Date()}
             placeholder="Start Date"
             onChange={changeHandler}
             value={newPass.start}

@@ -27,17 +27,15 @@ const ViewPasses = () => {
     <>
       <div className={viewPassesStyle.container}>
         {data?.map((item) => (
-          <div className={viewPassesStyle.card}>
-            <Pass
-              key={item?.id}
-              generateId={item?.generateId}
-              name={item?.name}
-              email={item?.email}
-              phone={item?.phone}
-              duration={item?.duration}
-              start={item?.start}
-            />
-          </div>
+          <Pass
+            key={item?.id}
+            generateId={item?.generateId}
+            name={item?.name}
+            email={item?.email}
+            phone={item?.phone}
+            duration={item?.duration}
+            start={item?.start}
+          />
         ))}
       </div>
     </>
