@@ -13,7 +13,7 @@ const generatePass = async (req, res, next) => {
       phone,
       email,
       duration,
-      start,
+      start: start+":00.000Z",
       generatedUserId: req.user.id,
       userName: req.user.name,
     })
