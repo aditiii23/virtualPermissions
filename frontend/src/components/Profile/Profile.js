@@ -3,11 +3,13 @@ import profilestyle from "./Profile.module.css"
 import GeneratePass from "../GeneratePass/GeneratePass"
 import ViewPasses from "../ViewPasses/ViewPasses"
 import { useNavigate } from "react-router-dom"
+import VerifyPass from "../VerifyPass/ViewUnverifiedPass"
 
 const Profile = () => {
   const navigate = useNavigate()
   const [generate, setgenerate] = useState(false)
   const [view, setView] = useState(false)
+  const [verify, setVerify] = useState(false)
   return (
     <div className={profilestyle.profile}>
       {generate == false ? (
@@ -34,6 +36,18 @@ const Profile = () => {
         </button>
       ) : null}
       {view ? <ViewPasses /> : null}
+      {verify == false ? (
+        <button
+          className={profilestyle.button}
+          onClick={() => {
+            setgenerate(true)
+            navigate("/viewUnverifiedPass")
+          }}
+        >
+        Verify Pass
+        </button>
+      ) : null}
+      {verify ? <VerifyPass /> : null}
     </div>
   )
 }

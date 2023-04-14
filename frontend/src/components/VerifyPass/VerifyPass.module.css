@@ -1,0 +1,49 @@
+.container {
+    padding: 10px 10px 10px 10px;
+    width: 90%;
+    height: 70%;
+    padding: 1rem;
+    flex-direction: row;
+    flex-wrap: wrap;
+    display: flex;
+    gap: 10px 10px;
+}
+
+.item {
+    margin-left: 5px;
+    grid-row-start: 1;
+    grid-template-columns: max-content;
+    grid-row-end: 5;
+}
+
+.card {
+    width: 40%;
+    height: 35%;
+    padding: 10px 10px 10px 10px;
+    margin: 6px;
+    background: #fff;
+    box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: row;
+}
+
+.button_common {
+    color: rgb(35, 60, 142);
+    padding: 5px 5px;
+    font-size: 22px;
+    cursor: pointer;
+    align-items: center;
+    text-decoration: none;
+}
+
+@media only screen and (max-width: 400px) {
+    .verifyPass {
+        width: 70%
+    }
+}
+
+@media only screen and (max-width: 900px) {
+    .verifyPass {
+        width: 50%
+    }
+}

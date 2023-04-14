@@ -13,7 +13,7 @@ const generatePass = async (req, res, next) => {
       phone,
       email,
       duration,
-      start: start+":00.000Z",
+      start: start + ":00.000Z",
       generatedUserId: req.user.id,
       userName: req.user.name,
     })
@@ -44,6 +44,21 @@ const viewPasses = async (req, res, next) => {
   }
 }
 
+//@desc View unverified passes to the gaurd
+//@route GET /passes/viewUnverifiedPass
+const viewUnverifiedPasses = async (req, res, next) => {
+  try {
+    const viewUnverified = await Pass.find({ checkInTime: null })
+    res.status(201).json({
+      success: true,
+      viewUnverified: viewUnverified,
+      message: "Unverified Passes fetched successfully",
+    })
+  } catch (err) {
+    next(err)
+  }
+}
+
 //@desc Verify pass by guard
 //@route PUT /users/verifyPass
 const verifyPass = async (req, res, next) => {
@@ -64,4 +79,4 @@ const verifyPass = async (req, res, next) => {
   }
 }
 
-module.exports = { generatePass, viewPasses, verifyPass }
+module.exports = { generatePass, viewPasses, verifyPass, viewUnverifiedPasses }
