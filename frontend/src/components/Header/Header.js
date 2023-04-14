@@ -13,7 +13,7 @@ const Header = () => {
 
   const logoutHandler = () => {
     return [
-      <li>
+      <>
         <Link
           to="/login"
           className={headerstyle.button_common}
@@ -25,7 +25,7 @@ const Header = () => {
         >
           Logout
         </Link>
-      </li>,
+      </>,
     ]
   }
 
@@ -34,29 +34,29 @@ const Header = () => {
       return logoutHandler()
     } else {
       return [
-        <li>
+        <>
           <Link to="/login" className={headerstyle.button_common}>
             Login
           </Link>
-        </li>,
-        <li>
+        </>,
+        <>
           <Link to="/register" className={headerstyle.button_common}>
             Register
           </Link>
-        </li>,
+        </>,
       ]
     }
   }
 
   return (
-    <nav className={headerstyle.nav}>
-      <div className={headerstyle.header}>
-        <div className={headerstyle.container}>
-          <Link to={state ? "/" : "/login"}>Virtual Permissions</Link>
-          <ul>{renderList()}</ul>
+    <div className={headerstyle.header}>
+      <div className={headerstyle.container}>
+        <div className={headerstyle.title}>
+          <Link className={headerstyle.titletext} to={state ? "/" : "/login"}>Virtual Permissions</Link>
         </div>
+        <div className={headerstyle.links}>{renderList()}</div>
       </div>
-    </nav>
+    </div>
   )
 }
 

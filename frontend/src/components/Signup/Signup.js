@@ -83,7 +83,6 @@ const Signup = () => {
   }
 
   return (
-    <>
       <div className={registerstyle.register}>
         <form className={registerstyle.registerform}>
           <h1>Create your account</h1>
@@ -147,7 +146,6 @@ const Signup = () => {
           <NavLink to="/login">Already registered? Login</NavLink>
         </form>
       </div>
-    </>
   )
 }
 export default Signup
