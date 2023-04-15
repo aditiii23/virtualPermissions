@@ -1,7 +1,7 @@
 .container {
     padding: 10px 10px 10px 10px;
     width: 90%;
-    height: 70%;
+    height: 90%;
     padding: 1rem;
     flex-direction: row;
     flex-wrap: wrap;
@@ -18,7 +18,7 @@
 
 .card {
     width: 40%;
-    height: 35%;
+    height: 65%;
     padding: 10px 10px 10px 10px;
     margin: 6px;
     background: #fff;

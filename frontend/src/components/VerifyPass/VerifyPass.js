@@ -3,10 +3,10 @@ import verifyPassesStyle from "./VerifyPass.module.css"
 import axios from "axios"
 import { apiUrl } from "../../services/config"
 import { Link, useNavigate } from "react-router-dom"
-
+import { toast } from "react-toastify"
 
 export default function Verify(item) {
-const navigate = useNavigate()
+  const navigate = useNavigate()
   const startDate = item.start
 
   return (
@@ -20,7 +20,6 @@ const navigate = useNavigate()
         <p>Start Time: </p>
       </div>
       <div className={verifyPassesStyle.item}>
-        <p>{item.generateId} </p>
         <p> {item.name}</p>
         <p> {item.email}</p>
         <p>{item.phone}</p>
@@ -30,12 +29,16 @@ const navigate = useNavigate()
         <Link
           className={verifyPassesStyle.button_common}
           onClick={async () => {
-          await axios.put(`${apiUrl}/passes/verifyPass/${item.generateId}`, {
-              headers: {
-                authorization: "Bearer " + localStorage.getItem("token"),
-              },
-            })
-            navigate("/viewUnverifiedPass")
+            await axios.put(
+              `${apiUrl}/passes/verifyPass/${item.generateId}`,
+              {},
+              {
+                headers: {
+                  authorization: "Bearer " + localStorage.getItem("token"),
+                },
+              }
+            )
+            navigate("/")
           }}
         >
           Verify Pass
