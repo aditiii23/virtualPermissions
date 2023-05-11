@@ -5,7 +5,7 @@ import Pass from "./Pass"
 import { apiUrl } from "../../services/config"
 import { toast } from "react-toastify"
 
-const ViewPasses = () => {
+const ViewPasses = (props) => {
   const [data, setData] = useState([])
 
   const fetchPasses = async () => {
@@ -19,8 +19,20 @@ const ViewPasses = () => {
     }
   }
 
+  const fetchUnverifiedPasses = async () => {
+    try {
+      const res = await axios.get(`${apiUrl}/passes/viewUnverifiedPass`, {
+        headers: { authorization: "Bearer " + localStorage.getItem("token") },
+      })
+      setData(res.data.viewUnverified)
+    } catch (err) {
+      toast.error(err?.response?.data?.message)
+    }
+  }
+
   useEffect(() => {
-    fetchPasses()
+    if (props.verify == false) fetchPasses()
+    else fetchUnverifiedPasses()
   }, [])
 
   return (
@@ -28,13 +40,9 @@ const ViewPasses = () => {
       <div className={viewPassesStyle.container}>
         {data?.map((item) => (
           <Pass
+            item={item}
             key={item?.id}
-            generateId={item?.generateId}
-            name={item?.name}
-            email={item?.email}
-            phone={item?.phone}
-            duration={item?.duration}
-            start={item?.start}
+            verify={props?.verify}
           />
         ))}
       </div>
