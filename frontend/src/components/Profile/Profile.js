@@ -1,53 +1,38 @@
-import React, { useState } from "react"
+import React from "react"
 import profilestyle from "./Profile.module.css"
-import GeneratePass from "../GeneratePass/GeneratePass"
-import ViewPasses from "../ViewPasses/ViewPasses"
 import { useNavigate } from "react-router-dom"
-import VerifyPass from "../VerifyPass/ViewUnverifiedPass"
 
+//check for role for button display (array element) user, guard, admin
+//onClick function upar likhna
+//css ek class ki use krni hai
 const Profile = () => {
   const navigate = useNavigate()
-  const [generate, setgenerate] = useState(false)
-  const [view, setView] = useState(false)
-  const [verify, setVerify] = useState(false)
   return (
     <div className={profilestyle.profile}>
-      {generate == false ? (
         <button
           className={profilestyle.button}
           onClick={() => {
-            setgenerate(true)
             navigate("/generatePass")
           }}
         >
           Generate Pass
         </button>
-      ) : null}
-      {generate ? <GeneratePass /> : null}
-      {view == false ? (
         <button
           className={profilestyle.button}
           onClick={() => {
-            setView(true)
             navigate("/viewPasses")
           }}
         >
           View Passes
         </button>
-      ) : null}
-      {view ? <ViewPasses /> : null}
-      {verify == false ? (
         <button
           className={profilestyle.button}
           onClick={() => {
-            setgenerate(true)
             navigate("/viewUnverifiedPass")
           }}
         >
         Verify Pass
         </button>
-      ) : null}
-      {verify ? <VerifyPass /> : null}
     </div>
   )
 }
