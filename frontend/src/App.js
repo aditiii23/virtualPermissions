@@ -36,7 +36,7 @@ const Routing = () => {
         <Route path="/generatePass" element={<GeneratePass />}></Route>
         <Route
           path="/viewPasses"
-          element={<ViewPasses verify={false} abc={"1234"} />}
+          element={<ViewPasses verify={false} />}
         ></Route>
         <Route
           path="/viewUnverifiedPass"

@@ -5,7 +5,7 @@ import Pass from "./Pass"
 import { apiUrl } from "../../services/config"
 import { toast } from "react-toastify"
 
-const ViewPasses = (props) => {
+const ViewPasses = ({verify}) => {
   const [data, setData] = useState([])
 
   const fetchPasses = async () => {
@@ -31,7 +31,7 @@ const ViewPasses = (props) => {
   }
 
   useEffect(() => {
-    if (props.verify == false) fetchPasses()
+    if (verify == false) fetchPasses()
     else fetchUnverifiedPasses()
   }, [])
 
@@ -42,7 +42,7 @@ const ViewPasses = (props) => {
           <Pass
             item={item}
             key={item?.id}
-            verify={props?.verify}
+            verify={verify}
           />
         ))}
       </div>
