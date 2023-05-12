@@ -31,8 +31,8 @@ const ViewPasses = ({verify}) => {
   }
 
   useEffect(() => {
-    if (verify == false) fetchPasses()
-    else fetchUnverifiedPasses()
+    if (verify == true) fetchUnverifiedPasses()
+    else fetchPasses()
   }, [])
 
   return (
