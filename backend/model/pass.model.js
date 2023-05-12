@@ -27,7 +27,7 @@ const passSchema = mongoose.Schema(
       required: true,
     },
     checkInTime: {
-      type: String,
+      type: Date,
       default: "",
     },
   },

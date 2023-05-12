@@ -34,7 +34,14 @@ const Routing = () => {
         <Route path="/register" element={<Signup />}></Route>
         <Route path="/" element={<Profile />}></Route>
         <Route path="/generatePass" element={<GeneratePass />}></Route>
-        <Route path="/viewPasses" element={<ViewPasses />}></Route>
+        <Route
+          path="/viewPasses"
+          element={<ViewPasses />}
+        ></Route>
+        <Route
+          path="/viewUnverifiedPass"
+          element={<ViewPasses verify={true} />}
+        ></Route>
       </Routes>
       <ToastContainer />
     </>
