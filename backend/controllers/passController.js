@@ -8,6 +8,14 @@ const generatePass = async (req, res, next) => {
   try {
     const { name, email, phone, duration, start } = req.body
 
+    async function getOTP(digit) {
+      const OTP = String(Math.random().toFixed(digit).split(".")[1])
+      const checkOTP = await Pass.find({ checkInTime: { $ne: null } })
+      if (checkOTP.OTP === OTP) {
+        return await getOTP(digit)
+      } else return OTP
+    }
+
     const newPass = await Pass.create({
       name,
       phone,
@@ -16,6 +24,7 @@ const generatePass = async (req, res, next) => {
       start: start + ":00.000Z",
       generatedUserId: req.user.id,
       userName: req.user.name,
+      OTP: await getOTP(6),
     })
     res.status(201).json({
       success: true,
@@ -23,7 +32,6 @@ const generatePass = async (req, res, next) => {
       message: "Pass generated successfully",
     })
   } catch (err) {
-    console.log(err)
     next(err)
   }
 }
@@ -44,39 +52,30 @@ const viewPasses = async (req, res, next) => {
   }
 }
 
-//@desc View unverified passes to the gaurd
-//@route GET /passes/viewUnverifiedPass
-const viewUnverifiedPasses = async (req, res, next) => {
-  try {
-    const viewUnverified = await Pass.find({ checkInTime: null })
-    res.status(201).json({
-      success: true,
-      viewUnverified: viewUnverified,
-      message: "Unverified Passes fetched successfully",
-    })
-  } catch (err) {
-    next(err)
-  }
-}
-
 //@desc Verify pass by guard
-//@route PUT /users/verifyPass
+//@route PATCH /users/verifyPass
 const verifyPass = async (req, res, next) => {
   try {
-    const passVerified = await Pass.findOneAndUpdate(
-      { _id: req.params._id },
-      {
-        checkInTime: new Date(),
-      }
-    )
-    res.status(201).json({
-      success: true,
-      passVerified: passVerified,
-      message: "Pass verified successfully",
-    })
+    const { otp } = req.body
+    if (!otp) throw new ErrorHandler(400, "OTP is required")
+    const findOTP = await Pass.findOne({ OTP: otp })
+    console.log(findOTP, otp, typeof otp)
+    if (!findOTP) throw new ErrorHandler(404, "Invalid OTP")
+    else if (findOTP) {
+      const passVerified = await Pass.findOneAndUpdate(
+        { OTP: otp },
+        {
+          checkInTime: new Date(),
+        }
+      )
+      res.status(201).json({
+        success: true,
+        message: "Pass verified successfully",
+      })
+    }
   } catch (err) {
     next(err)
   }
 }
 
-module.exports = { generatePass, viewPasses, verifyPass, viewUnverifiedPasses }
+module.exports = { generatePass, viewPasses, verifyPass }
