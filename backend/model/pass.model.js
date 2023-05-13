@@ -30,6 +30,10 @@ const passSchema = mongoose.Schema(
       type: Date,
       default: "",
     },
+    OTP: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,
