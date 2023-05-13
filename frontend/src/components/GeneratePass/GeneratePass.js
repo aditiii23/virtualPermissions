@@ -46,7 +46,7 @@ const GeneratePass = () => {
     if (!values.start) {
       error.start = "Start Date is required"
     }
-    if (new Date(values.start).getTime()+60000 < new Date()) {
+    if (new Date(values.start).getTime() + 60000 < new Date()) {
       error.start = "Start time and date to be greater than current"
     }
     return error
@@ -63,6 +63,7 @@ const GeneratePass = () => {
             authorization: "Bearer " + localStorage.getItem("token"),
           },
         })
+        toast.success("Pass generated successfully!")
         navigate("/viewPasses")
       }
     } catch (err) {
