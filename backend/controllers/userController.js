@@ -9,11 +9,30 @@ const registerUser = async (req, res, next) => {
   try {
     const { name, password, confirmpwd, phone } = req.body
     let email = req.body.email?.toLowerCase()
+    const emailRegex = /^[^\s+@]+@[^\s@]+\.[^\s@]{2,}$/i
+    const phoneRegex = /^\+?\d{1,3}[- ]?\d{3}[- ]?\d{3}[- ]?\d{4}$/
     if (!email?.length)
       throw new ErrorHandler(400, "Please enter a valid email address")
+    else if (!emailRegex.test(email)) {
+      throw new ErrorHandler(400, "Invalid email! Please try again")
+    }
+    if (!name?.length) throw new ErrorHandler(400, "Please enter a valid name")
+    if (!password?.length)
+      throw new ErrorHandler(400, "Please enter a valid password")
+    if (!confirmpwd?.length)
+      throw new ErrorHandler(400, "Please enter a valid confirm password")
     if (password != confirmpwd) {
       throw new ErrorHandler(400, "Passwords do not match")
     }
+    if (!phone?.length)
+      throw new ErrorHandler(400, "Please enter a valid phone number")
+    else if (!phoneRegex.test(phone)) {
+      throw new ErrorHandler(
+        400,
+        "Invalid Phone Number! Please try with country code"
+      )
+    }
+
     const userExists = await User.findOne({ email })
 
     if (userExists) {
@@ -49,6 +68,8 @@ const loginUser = async (req, res, next) => {
     let email = req.body.email?.toLowerCase()
     if (!email?.length)
       throw new ErrorHandler(400, "Please enter a valid email address")
+    if (!password?.length)
+      throw new ErrorHandler(400, "Please enter a valid password")
 
     const user = await User.findOne({ email })
 
