@@ -5,6 +5,7 @@ import Signup from "./components/Signup/Signup"
 import Profile from "./components/Profile/Profile"
 import GeneratePass from "./components/GeneratePass/GeneratePass"
 import ViewPasses from "./components/ViewPasses/ViewPasses"
+import Verify from "./components/Verify/VerifyPass"
 import "react-toastify/dist/ReactToastify.css"
 import { ToastContainer } from "react-toastify"
 import Header from "./components/Header/Header"
@@ -34,14 +35,8 @@ const Routing = () => {
         <Route path="/register" element={<Signup />}></Route>
         <Route path="/" element={<Profile />}></Route>
         <Route path="/generatePass" element={<GeneratePass />}></Route>
-        <Route
-          path="/viewPasses"
-          element={<ViewPasses />}
-        ></Route>
-        <Route
-          path="/viewUnverifiedPass"
-          element={<ViewPasses verify={true} />}
-        ></Route>
+        <Route path="/viewPasses" element={<ViewPasses />}></Route>
+        <Route path="/verifyPass" element={<Verify />}></Route>
       </Routes>
       <ToastContainer />
     </>

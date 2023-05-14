@@ -25,7 +25,7 @@ const Profile = () => {
         <button
           className={profilestyle.button}
           onClick={() => {
-            navigate("/viewUnverifiedPass")
+            navigate("/verifyPass")
           }}
         >
         Verify Pass

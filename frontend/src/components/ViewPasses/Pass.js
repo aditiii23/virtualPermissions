@@ -4,7 +4,7 @@ import axios from "axios"
 import { apiUrl } from "../../services/config"
 import { Link, useNavigate } from "react-router-dom"
 
-export default function Pass({item, verify}) {
+export default function Pass({ item, verify }) {
   const navigate = useNavigate()
   const startDate = item.start
   const verifyPass = async () => {
@@ -29,6 +29,7 @@ export default function Pass({item, verify}) {
         <p>Duration:</p>
         <p>Start Date:</p>
         <p>Start Time: </p>
+        <p>OTP: </p>
       </div>
       <div className={viewPassesStyle.item}>
         <p>{item.generateId}</p>
@@ -38,10 +39,9 @@ export default function Pass({item, verify}) {
         <p>{item.duration}</p>
         <p>{startDate?.substring(0, 10)}</p>
         <p>{startDate?.substring(11, startDate.length - 8)}</p>
+        <p>{item.OTP}</p>
         {verify == true ? (
-          <Link className={viewPassesStyle.button_common} 
-          onClick={verifyPass}
-          >
+          <Link className={viewPassesStyle.button_common} onClick={verifyPass}>
             Verify Pass
           </Link>
         ) : null}

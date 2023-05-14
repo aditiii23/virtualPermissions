@@ -6,12 +6,10 @@ const {
   generatePass,
   viewPasses,
   verifyPass,
-  viewUnverifiedPasses,
 } = require("../controllers/passController")
 
 router.post("/generatePass", authorize(["admin"]), generatePass)
 router.get("/viewPasses", authorize(["admin"]), viewPasses)
-router.put("/verifyPass/:_id", authorize(["guard"]), verifyPass)
-router.get("/viewUnverifiedPass", authorize(["guard"]), viewUnverifiedPasses)
+router.patch("/verifyPass", authorize(["guard"]), verifyPass)
 
 module.exports = router
