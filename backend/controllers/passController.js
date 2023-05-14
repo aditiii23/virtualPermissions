@@ -59,9 +59,7 @@ const verifyPass = async (req, res, next) => {
     const { otp } = req.body
     if (!otp) throw new ErrorHandler(400, "OTP is required")
     const findOTP = await Pass.findOne({ OTP: otp })
-    console.log(findOTP, otp, typeof otp)
     if (!findOTP) throw new ErrorHandler(404, "Invalid OTP")
-    else if (findOTP) {
       const passVerified = await Pass.findOneAndUpdate(
         { OTP: otp },
         {
@@ -72,7 +70,6 @@ const verifyPass = async (req, res, next) => {
         success: true,
         message: "Pass verified successfully",
       })
-    }
   } catch (err) {
     next(err)
   }
