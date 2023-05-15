@@ -17,13 +17,9 @@ const authorize = (role) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
         req.user = await User.findById(decoded.id)
         const user = req.user
-        let rolesExist = false
-        if (role.includes(user.roles)) {
-          rolesExist = true
-        }
-        if (rolesExist == false)
+        if (!role.includes(user.roles)) {
           throw new ErrorHandler(403, "You are not authorized to access this")
-
+        }
         next()
       } catch (error) {
         next(error)
