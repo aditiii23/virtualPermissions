@@ -2,7 +2,7 @@ const User = require("../model/user.model")
 const jwt = require("jsonwebtoken")
 const { ErrorHandler } = require("./errorMiddleware")
 
-const authorize = (role) => {
+const authorize = (roles) => {
   return async (req, res, next) => {
     if (
       req.headers.authorization &&
@@ -17,10 +17,9 @@ const authorize = (role) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
         req.user = await User.findById(decoded.id)
         const user = req.user
-        if (!user.roles.includes(role)) {
+        if (!roles.includes(user.role)) {
           throw new ErrorHandler(403, "You are not authorized to access this")
         }
-
         next()
       } catch (error) {
         next(error)

@@ -8,8 +8,8 @@ const {
   verifyPass,
 } = require("../controllers/passController")
 
-router.post("/generatePass", authorize(["admin"]), generatePass)
-router.get("/viewPasses", authorize(["admin"]), viewPasses)
-router.patch("/verifyPass", authorize(["guard"]), verifyPass)
+router.post("/generatePass", authorize(["admin", "user"]), generatePass)
+router.get("/viewPasses", authorize(["admin", "user"]), viewPasses)
+router.patch("/verifyPass", authorize(["guard", "admin"]), verifyPass)
 
 module.exports = router
