@@ -11,8 +11,7 @@ const authorize = (roles) => {
       ) {
         throw new ErrorHandler(400, "Token missing!")
       }
-      let token
-      token = req.headers.authorization.split(" ")[1]
+      const token = req.headers.authorization.split(" ")[1]
       if (!token) {
         throw new ErrorHandler(400, "Not authorized, no token")
       }
