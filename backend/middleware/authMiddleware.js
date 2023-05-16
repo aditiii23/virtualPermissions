@@ -4,13 +4,13 @@ const { ErrorHandler } = require("./errorMiddleware")
 
 const authorize = (roles) => {
   return async (req, res, next) => {
-    if (
-      !req.headers.authorization ||
-      !req.headers.authorization.startsWith("Bearer")
-    ) {
-      throw new ErrorHandler(400, "Token missing!")
-    }
     try {
+      if (
+        !req.headers.authorization ||
+        !req.headers.authorization.startsWith("Bearer")
+      ) {
+        throw new ErrorHandler(400, "Token missing!")
+      }
       let token
       token = req.headers.authorization.split(" ")[1]
       if (!token) {
