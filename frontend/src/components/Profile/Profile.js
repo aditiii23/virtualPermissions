@@ -4,32 +4,71 @@ import { useNavigate } from "react-router-dom"
 
 const Profile = () => {
   const navigate = useNavigate()
+  const user = JSON.parse(localStorage.getItem("user"))
+  if (!user) {
+    return navigate("/login")
+  }
+  const viewRole = user.role
   return (
     <div className={profilestyle.profile}>
-        <button
-          className={profilestyle.button}
-          onClick={() => {
-            navigate("/generatePass")
-          }}
-        >
-          Generate Pass
-        </button>
-        <button
-          className={profilestyle.button}
-          onClick={() => {
-            navigate("/viewPasses")
-          }}
-        >
-          View Passes
-        </button>
-        <button
-          className={profilestyle.button}
-          onClick={() => {
-            navigate("/verifyPass")
-          }}
-        >
-        Verify Pass
-        </button>
+      {viewRole === "admin" ? (
+        <>
+          <button
+            className={profilestyle.button}
+            onClick={() => {
+              navigate("/generatePass")
+            }}
+          >
+            Generate Pass
+          </button>
+          <button
+            className={profilestyle.button}
+            onClick={() => {
+              navigate("/viewPasses")
+            }}
+          >
+            View Passes
+          </button>
+          <button
+            className={profilestyle.button}
+            onClick={() => {
+              navigate("/verifyPass")
+            }}
+          >
+            Verify Pass
+          </button>
+        </>
+      ) : viewRole === "user" ? (
+        <>
+          <button
+            className={profilestyle.button}
+            onClick={() => {
+              navigate("/generatePass")
+            }}
+          >
+            Generate Pass
+          </button>
+          <button
+            className={profilestyle.button}
+            onClick={() => {
+              navigate("/viewPasses")
+            }}
+          >
+            View Passes
+          </button>
+        </>
+      ) : viewRole === "guard" ? (
+        <>
+          <button
+            className={profilestyle.button}
+            onClick={() => {
+              navigate("/verifyPass")
+            }}
+          >
+            Verify Pass
+          </button>
+        </>
+      ) : null}
     </div>
   )
 }
